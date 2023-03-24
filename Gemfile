@@ -38,3 +38,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "rspec-rails", "~> 6.0.0", :groups => [:development, :test]
 
 gem "factory_bot_rails", "~> 6.0.0", :groups => [:development, :test]
+
+gem "rubocop", "~> 1.48", :groups => [:development, :test], :require => false
+gem "rubocop-rails", "~> 2.18", :groups => [:development, :test], :require => false
+gem "rubocop-rspec", "~> 2.19", :groups => [:development, :test], :require => false
+gem "rubocop-rspec", "~> 2.19", :groups => [:development, :test], :require => false
+gem "rubocop-rake", "~> 0.6.0", :groups => [:development, :test], :require => false
+gem "rubocop-performance", "~> 1.16", :groups => [:development, :test], :require => false
