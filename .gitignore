@@ -1,0 +1,7 @@
+# Tools
+.idea
+
+# Other
+.env
+.env.*
+!.env.example
