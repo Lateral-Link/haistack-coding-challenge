@@ -1,20 +1,37 @@
+x-app: &app
+  build:
+    context: .
+    dockerfile: dev.dockerfile
+  image: lateral-link/haistack-coding-challenge
+  platform: linux/amd64
+  volumes:
+    - .:/app
+    - app_gem_home:/usr/local/bundle
+
 services:
 
   app:
-    build:
-      context: .
-      dockerfile: dev.dockerfile
+    <<: *app
     depends_on:
       - db
+      - webpacker
     environment:
       DATABASE_URL: $DATABASE_URL
-    image: lateral-link/haistack-coding-challenge
-    platform: linux/amd64
+      NODE_ENV: development
+      RAILS_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: webpacker
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - app_gem_home:/usr/local/bundle
+
+  webpacker:
+    <<: *app
+    command: bundle exec ./bin/webpack-dev-server
+    environment:
+      NODE_ENV: development
+      RAILS_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    ports:
+      - "3035:3035"
 
   db:
     environment:

@@ -11,6 +11,7 @@ ARG RUBYGEMS_VERSION=3.4.9
 ARG YARN_VERSION=1.22.19
 
 ENV GEM_HOME=/usr/local/bundle/_bundle
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 ENV PATH=$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
