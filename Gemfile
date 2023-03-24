@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -21,7 +23,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -33,15 +35,14 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem "rspec-rails", "~> 6.0.0", :groups => [:development, :test]
+gem 'rspec-rails', '~> 6.0.0', groups: %i[development test]
 
-gem "factory_bot_rails", "~> 6.0.0", :groups => [:development, :test]
+gem 'factory_bot_rails', '~> 6.0.0', groups: %i[development test]
 
-gem "rubocop", "~> 1.48", :groups => [:development, :test], :require => false
-gem "rubocop-rails", "~> 2.18", :groups => [:development, :test], :require => false
-gem "rubocop-rspec", "~> 2.19", :groups => [:development, :test], :require => false
-gem "rubocop-rspec", "~> 2.19", :groups => [:development, :test], :require => false
-gem "rubocop-rake", "~> 0.6.0", :groups => [:development, :test], :require => false
-gem "rubocop-performance", "~> 1.16", :groups => [:development, :test], :require => false
+gem 'rubocop', '~> 1.48', groups: %i[development test], require: false
+gem 'rubocop-performance', '~> 1.16', groups: %i[development test], require: false
+gem 'rubocop-rails', '~> 2.18', groups: %i[development test], require: false
+gem 'rubocop-rake', '~> 0.6.0', groups: %i[development test], require: false
+gem 'rubocop-rspec', '~> 2.19', groups: %i[development test], require: false
