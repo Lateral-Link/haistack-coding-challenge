@@ -6,6 +6,8 @@ services:
       dockerfile: dev.dockerfile
     depends_on:
       - db
+    environment:
+      DATABASE_URL: $DATABASE_URL
     image: lateral-link/haistack-coding-challenge
     platform: linux/amd64
     ports:
