@@ -1,8 +1,8 @@
 # Haistack Coding Challenge
 
-Coding challenge presented to candidates interviewing for a role at Haistack.AI.
+Coding challenge presented to candidates interviewing for a role at [Haistack.AI](https://www.linkedin.com/company/haistack/).
 
-#findyourneedle
+_#findyourneedle_
 
 ![A screenshot of the application](SCREENSHOT.png)
 
@@ -33,6 +33,12 @@ docker compose up
 
 Browse to http://localhost:3000.
 
+### Running tests
+
+```shell
+docker compose run -e RAILS_ENV=test --rm app bundle exec rspec
+```
+
 ## Support
 
 Contact the authors in case of problems.  
@@ -48,4 +54,4 @@ Follow [these instructions](https://docs.github.com/en/get-started/quickstart/co
 
 ## License
 
-Copyright 2023 Haistack.AI
+Copyright 2023 [Haistack.AI](https://www.linkedin.com/company/haistack/)

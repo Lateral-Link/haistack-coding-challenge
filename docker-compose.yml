@@ -39,11 +39,12 @@ services:
       MYSQL_ONETIME_PASSWORD: true
       MYSQL_PASSWORD: $DB_PASSWORD
       MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_TCP_PORT: $DB_PORT
       MYSQL_USER: $DB_USERNAME
     image: mysql:5.7.41-debian
     platform: linux/amd64
     ports:
-      - "3306:3306"
+      - "3306:$DB_PORT"
     volumes:
       - db_mysql_datadir:/var/lib/mysql
 
