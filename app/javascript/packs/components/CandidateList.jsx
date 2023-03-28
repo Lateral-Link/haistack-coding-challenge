@@ -25,53 +25,44 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
     };
 
     return (
-        <ul>
-            {candidates.map((candidate) => (
-                <li key={candidate.id}>
-                    <span
-                        contentEditable={editingCandidateId === candidate.id}
-                        onBlur={(e) =>
-                            handleInputChange(candidate.id, 'name', e.target.textContent)
-                        }
-                    >
-                        {candidate.name}
-                    </span>{' '}
-                    |{' '}
-                    <span
-                        contentEditable={editingCandidateId === candidate.id}
-                        onBlur={(e) =>
-                            handleInputChange(candidate.id, 'email', e.target.textContent)
-                        }
-                    >
-                        {candidate.email}
-                    </span>{' '}
-                    |{' '}
-                    {editingCandidateId === candidate.id ? (
-                        <input
-                            type="date"
-                            value={editedCandidates[candidate.id]?.birth_date || candidate.birth_date}
-                            onChange={(e) => handleDateInputChange(candidate.id, e.target.value)}
-                        />
-                    ) : (
-                        candidate.birth_date
-                    )}
-                    {editingCandidateId === candidate.id ? (
-                        <button
-                            onClick={() => {
-                                updateCandidate(candidate.id, editedCandidates[candidate.id]);
-                                setEditingCandidateId(null);
-                            }}
-                        >
-                            Save
-                        </button>
-                    ) : (
-                        <button onClick={() => handleEdit(candidate.id)}>Edit</button>
-                    )}
-                    <button onClick={() => handleDelete(candidate.id)}>Delete</button>
-                </li>
-            ))}
-        </ul>
+        <div className="flex items-center justify-center">
+            <table className="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Birth Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {candidates.map((candidate) => (
+                        <tr key={candidate.id}>
+                            <td className="px-6 py-4 whitespace-nowrap">{candidate.name}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{candidate.email}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">{candidate.birth_date}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                                <button
+                                    onClick={() => handleEdit(candidate.id)}
+                                    className="bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow-sm mr-2"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(candidate.id)}
+                                    className="bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow-sm "
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
+
+
 };
 
 export default CandidateList;
