@@ -19,7 +19,6 @@ const CandidateManager = () => {
             setCandidates(response.data);
             setLoading(false);
         } catch (error) {
-            console.error(error);
             toast.error('Failed to fetch candidates.');
             setLoading(false);
         }
@@ -31,7 +30,6 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate created successfully!');
         } catch (error) {
-            console.error(error);
             toast.error('Failed to create candidate.');
         }
     };
@@ -42,7 +40,6 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate updated successfully!');
         } catch (error) {
-            console.error(error);
             toast.error('Failed to update candidate.');
         }
     };
@@ -53,7 +50,6 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate deleted successfully!');
         } catch (error) {
-            console.error(error);
             toast.error('Failed to delete candidate.');
         }
     };
