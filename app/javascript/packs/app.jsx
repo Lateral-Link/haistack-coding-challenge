@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import CandidateManager from './components/CandidateManager';
+import CandidateManager from './organisms/CandidateManager';
 import 'stylesheets/application.scss';
 import { Toaster } from 'react-hot-toast';
 

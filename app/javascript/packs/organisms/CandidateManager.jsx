@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CandidateForm from './CandidateForm';
-import CandidateList from './CandidateList';
+import CandidateForm from '../molecules/CandidateForm';
+import CandidateList from '../molecules/CandidateList';
 import { toast } from 'react-hot-toast';
 
 const CandidateManager = () => {

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Input from '../atoms/Input';
+import Button from '../atoms/Button';
 
 const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
     const [editingCandidateId, setEditingCandidateId] = useState(null);
@@ -35,6 +37,11 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
         }
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB');
+    };
+
     return (
         <div className="flex items-center justify-center">
             <table className="min-w-full text-center divide-y divide-gray-200">
@@ -51,12 +58,11 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                         <tr key={candidate.id}>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {editingCandidateId === candidate.id ? (
-                                    <input
+                                    <Input
                                         type="text"
                                         value={editedCandidates[candidate.id]?.name || candidate.name}
                                         onChange={(e) => handleInputChange(candidate.id, 'name', e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(e, candidate.id)}
-                                        className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm"
                                     />
                                 ) : (
                                     candidate.name
@@ -64,12 +70,11 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {editingCandidateId === candidate.id ? (
-                                    <input
+                                    <Input
                                         type="email"
                                         value={editedCandidates[candidate.id]?.email || candidate.email}
                                         onChange={(e) => handleInputChange(candidate.id, 'email', e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(e, candidate.id)}
-                                        className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm"
                                     />
                                 ) : (
                                     candidate.email
@@ -77,39 +82,37 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {editingCandidateId === candidate.id ? (
-                                    <input
+                                    <Input
                                         type="date"
                                         value={editedCandidates[candidate.id]?.birth_date || candidate.birth_date}
                                         onChange={(e) => handleDateInputChange(candidate.id, e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(e, candidate.id)}
-                                        className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm"
                                     />
                                 ) : (
-                                    candidate.birth_date
+                                    formatDate(candidate.birth_date)
                                 )}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 {editingCandidateId === candidate.id ? (
-                                    <button
+                                    <Button
                                         onClick={() => handleSave(candidate.id)}
-                                        className="bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow-sm mr-2"
+                                        className="mr-2"
                                     >
                                         Save
-                                    </button>
+                                    </Button>
                                 ) : (
-                                    <button
+                                    <Button
                                         onClick={() => handleEdit(candidate.id)}
-                                        className="bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow-sm mr-2"
+                                        className="mr-2"
                                     >
                                         Edit
-                                    </button>
+                                    </Button>
                                 )}
-                                <button
+                                <Button
                                     onClick={() => handleDelete(candidate.id)}
-                                    className="bg-white hover:bg-gray-100 text-gray-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow-sm "
                                 >
                                     Delete
-                                </button>
+                                </Button>
                             </td>
                         </tr>
                     ))}
@@ -120,4 +123,3 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
 };
 
 export default CandidateList;
-
