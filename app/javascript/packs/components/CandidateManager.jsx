@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CandidateForm from './CandidateForm';
 import CandidateList from './CandidateList';
+import { toast } from 'react-hot-toast';
+
 
 const CandidateManager = () => {
     const [candidates, setCandidates] = useState([]);
@@ -16,8 +18,13 @@ const CandidateManager = () => {
     };
 
     const createCandidate = async (candidate) => {
-        await axios.post('/api/v1/candidates', candidate);
-        fetchCandidates();
+        try {
+            await axios.post('/api/v1/candidates', candidate);
+            fetchCandidates();
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to create candidate.');
+        }
     };
 
     const updateCandidate = async (id, candidate) => {
