@@ -1,6 +1,4 @@
 class Api::V1::CandidatesController < ApplicationController
-  before_action :set_candidate, only: %i[show edit update destroy]
-
   def index
     @candidates = Candidate.all
     render json: @candidates
@@ -11,34 +9,28 @@ class Api::V1::CandidatesController < ApplicationController
   end
 
   def create
-    @candidate = Candidate.new(candidate_params)
-    if @candidate.save
-      render json: @candidate, status: :created
-    else
-      render json: @candidate.errors, status: :unprocessable_entity
-    end
+    call_action(create_candidate)
   end
 
   def update
-    if @candidate.update(candidate_params)
-      render json: @candidate
-    else
-      render json: @candidate.errors, status: :unprocessable_entity
-    end
+    call_action(update_candidate)
   end
 
   def destroy
-    @candidate.destroy
-    head :no_content
+    call_action(delete_candidate)
   end
 
   private
 
-  def set_candidate
-    @candidate = Candidate.find(params[:id])
+  def create_candidate
+    CandidateServices::V1::Create::UseCase.new
   end
 
-  def candidate_params
-    params.require(:candidate).permit(:name, :email, :date_of_birth)
+  def update_candidate
+    CandidateServices::V1::Update::UseCase.new
+  end
+
+  def delete_candidate
+    CandidateServices::V1::Delete::UseCase.new
   end
 end
