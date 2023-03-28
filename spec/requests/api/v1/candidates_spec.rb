@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'api/v1/candidates', type: :request do
+  before(:all) do
+    Candidate.destroy_all
+  end
+
   # Helper method to parse json response
   def json_body
     JSON.parse(response.body)
@@ -27,6 +31,8 @@ RSpec.describe 'api/v1/candidates', type: :request do
   end
 
   describe 'GET /index' do
+    let!(:candidates) { create_list(:candidate, 3) } # Create 3 candidates using FactoryBot
+
     it 'returns success' do
       get api_v1_candidates_url
       expect(response).to be_successful
@@ -34,15 +40,15 @@ RSpec.describe 'api/v1/candidates', type: :request do
 
     it 'returns a list of candidates equal to 3' do
       get api_v1_candidates_url
-      expect(json_body.count).to eq(1)
+      expect(json_body.count).to eq(3) # Expect 3 candidates in the response
     end
 
     # every candidate in the list should have the correct attributes
     it 'returns the correct attributes for each candidate' do
       get api_v1_candidates_url
 
-      json_body.each do |candidate|
-        expect(candidate).to include(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
+      json_body.each_with_index do |candidate, index|
+        expect(candidate).to include(candidates[index].slice(:id, :name, :email).stringify_keys.merge('birth_date' => candidates[index].birth_date.to_s))
       end
     end
   end
