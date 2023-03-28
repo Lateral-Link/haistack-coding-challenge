@@ -37,11 +37,6 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
         }
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB');
-    };
-
     return (
         <div className="flex items-center justify-center">
             <table className="min-w-full text-center divide-y divide-gray-200">
@@ -89,7 +84,7 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                                         onKeyDown={(e) => handleKeyDown(e, candidate.id)}
                                     />
                                 ) : (
-                                    formatDate(candidate.birth_date)
+                                    candidate.birth_date
                                 )}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
