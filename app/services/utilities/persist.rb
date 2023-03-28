@@ -9,9 +9,9 @@ module Utilities
       when :create
         record = @repository.create!(args)
       when :update
-        record.assign_attributes(args)
+        record.update!(args)
       when :delete
-        record.destroy
+        record.destroy!
       else
         raise ArgumentError, "Invalid action: #{action.inspect}"
       end
