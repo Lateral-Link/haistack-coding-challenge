@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const CandidateForm = ({ createCandidate, updateCandidate }) => {
+const CandidateForm = ({ createCandidate }) => {
     const [newCandidate, setNewCandidate] = useState({
         name: '',
         email: '',
@@ -12,6 +12,10 @@ const CandidateForm = ({ createCandidate, updateCandidate }) => {
     const handleFormInputChange = (event) => {
         const { name, value } = event.target;
         setNewCandidate({ ...newCandidate, [name]: value });
+    };
+
+    const handleDateChange = (date) => {
+        setNewCandidate({ ...newCandidate, birth_date: date });
     };
 
     const handleSubmit = (event) => {
@@ -30,6 +34,7 @@ const CandidateForm = ({ createCandidate, updateCandidate }) => {
                     onChange={handleFormInputChange}
                     placeholder="Candidate name"
                     className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm"
+                    required
                 />
                 <input
                     type="email"
@@ -38,16 +43,17 @@ const CandidateForm = ({ createCandidate, updateCandidate }) => {
                     onChange={handleFormInputChange}
                     placeholder="Candidate email"
                     className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm"
+                    required
                 />
-                <div className='w-auto'>
+                <div className="w-auto">
                     <ReactDatePicker
                         selected={newCandidate.birth_date}
-                        onChange={(date) => handleFormInputChange({ target: { name: 'birth_date', value: date } })}
+                        onChange={handleDateChange}
                         dateFormat="yyyy-MM-dd"
                         placeholderText="Candidate birth date"
                         className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm w-auto"
+                        required
                     />
-
                 </div>
 
                 <button
@@ -59,7 +65,6 @@ const CandidateForm = ({ createCandidate, updateCandidate }) => {
             </div>
         </form>
     );
-
 };
 
 export default CandidateForm;
