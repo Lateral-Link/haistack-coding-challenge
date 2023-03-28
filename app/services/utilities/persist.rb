@@ -9,7 +9,8 @@ module Utilities
       when :create
         record = @repository.create!(args)
       when :update
-        record.update!(args)
+        record.assign_attributes(args)
+        record.update!(args) if record.changed?
       when :delete
         record.destroy!
       else
