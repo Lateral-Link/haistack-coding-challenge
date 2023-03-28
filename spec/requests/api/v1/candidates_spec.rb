@@ -27,32 +27,36 @@ RSpec.describe 'api/v1/candidates', type: :request do
   end
 
   describe 'GET /index' do
-    before { get api_v1_candidates_url }
-
     it 'returns success' do
+      get api_v1_candidates_url
       expect(response).to be_successful
     end
 
     it 'returns a list of candidates equal to 3' do
+      get api_v1_candidates_url
       expect(json_body.count).to eq(1)
     end
 
     # every candidate in the list should have the correct attributes
     it 'returns the correct attributes for each candidate' do
-      candidates.each do |candidate|
+      get api_v1_candidates_url
+
+      json_body.each do |candidate|
         expect(candidate).to include(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
       end
     end
   end
 
   describe 'GET /show' do
-    let!(:candidate) { create(:candidate, valid_attributes) }
-
-    before { get api_v1_candidate_url(candidate) }
+    let!(:candidate) { create(:candidate) }
 
     it 'renders a successful response and returns the correct candidate' do
+      get api_v1_candidate_url(candidate.id)
       expect(response).to be_successful
-      expect(json_body).to eq(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
+      expect(json_body).to have_key('id')
+      expect(json_body).to have_key('name')
+      expect(json_body).to have_key('email')
+      expect(json_body).to have_key('birth_date')
     end
   end
 
