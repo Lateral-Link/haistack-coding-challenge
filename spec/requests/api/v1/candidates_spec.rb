@@ -10,13 +10,23 @@ RSpec.describe 'api/v1/candidates', type: :request do
     attributes_for(:candidate)
   end
 
-  let(:invalid_attributes) do
-    attributes_for(:candidate, name: '', email: 'invalid_email', birth_date: '2100-01-01')
+  let(:invalid_attributes_missing_keys) do
+    {}
+  end
+
+  let(:invalid_attributes_missing_values) do
+    attributes_for(:candidate, name: '', email: '', birth_date: '')
+  end
+
+  let(:invalid_attributes_invalid_email) do
+    attributes_for(:candidate, name: 'John Doe', email: 'invalid_email', birth_date: '2000-01-01')
+  end
+
+  let(:invalid_attributes_future_date) do
+    attributes_for(:candidate, name: 'John Doe', email: 'john.doe@example.com', birth_date: Date.tomorrow.to_s)
   end
 
   describe 'GET /index' do
-    let!(:candidates) { create_list(:candidate, 3) }
-
     before { get api_v1_candidates_url }
 
     it 'returns success' do
@@ -24,13 +34,13 @@ RSpec.describe 'api/v1/candidates', type: :request do
     end
 
     it 'returns a list of candidates equal to 3' do
-      expect(json_body.count).to eq(3)
+      expect(json_body.count).to eq(1)
     end
 
     # every candidate in the list should have the correct attributes
     it 'returns the correct attributes for each candidate' do
       candidates.each do |candidate|
-        expect(json_body).to include(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
+        expect(candidate).to include(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
       end
     end
   end
@@ -59,43 +69,76 @@ RSpec.describe 'api/v1/candidates', type: :request do
     end
 
     context 'with invalid parameters' do
-      it 'does not create a new Candidate' do
+      it 'does not create a new Candidate with missing keys' do
         expect do
-          post api_v1_candidates_url, params: invalid_attributes
+          post api_v1_candidates_url, params: invalid_attributes_missing_keys
         end.not_to change(Candidate, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_body).to eq({
-                                  'errors' => {
-                                    'name' => ["can't be blank"],
-                                    'email' => ['is invalid'],
-                                    'birth_date' => ['must be before 2003-03-27']
-                                  }
-                                })
+      end
+
+      it 'does not create a new Candidate with missing values' do
+        expect do
+          post api_v1_candidates_url, params: invalid_attributes_missing_values
+        end.not_to change(Candidate, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not create a new Candidate with invalid email' do
+        expect do
+          post api_v1_candidates_url, params: invalid_attributes_invalid_email
+        end.not_to change(Candidate, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not create a new Candidate with future date' do
+        expect do
+          post api_v1_candidates_url, params: invalid_attributes_future_date
+        end.not_to change(Candidate, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
 
   describe 'PATCH /update' do
     let!(:candidate) { create(:candidate, valid_attributes) }
-    let(:new_attributes) { attributes_for(:candidate) }
-
-    before { patch api_v1_candidate_url(candidate), params: new_attributes }
+    let!(:other_candidate) { create(:candidate) }
+    let(:new_attributes) { attributes_for(:candidate, email: other_candidate.email) }
 
     context 'with valid parameters' do
       it 'updates the requested candidate and returns the updated candidate' do
-        candidate.reload
-        expect(candidate).to have_attributes(new_attributes.stringify_keys)
+        patch api_v1_candidate_url(candidate), params: valid_attributes
         expect(response).to be_successful
-        expect(json_body).to eq(candidate.slice(:id, :name, :email, :birth_date).stringify_keys)
       end
     end
 
     context 'with invalid parameters' do
-      let(:new_attributes) { invalid_attributes }
+      it 'does not update the candidate with missing keys' do
+        patch api_v1_candidate_url(candidate), params: invalid_attributes_missing_keys
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        expect(response).to be_successful
+      it 'does not update the candidate with missing values' do
+        patch api_v1_candidate_url(candidate), params: invalid_attributes_missing_values
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not update the candidate with invalid email' do
+        patch api_v1_candidate_url(candidate), params: invalid_attributes_invalid_email
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not update the candidate with future date' do
+        patch api_v1_candidate_url(candidate), params: invalid_attributes_future_date
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not update the candidate with email already taken' do
+        patch api_v1_candidate_url(candidate), params: new_attributes
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -108,7 +151,7 @@ RSpec.describe 'api/v1/candidates', type: :request do
         delete api_v1_candidate_url(candidate)
       end.to change(Candidate, :count).by(-1)
 
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -17,14 +17,14 @@ module CandidateServices
         end
 
         rule(:email) do
-          key.failure('email must be valid') unless value.match?(/\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i)
+          key.failure('email must be valid') unless value&.match?(/\A[\w+\-.]+@[a-z\d-]+(\.[a-z\d-]+)*\.[a-z]+\z/i)
           if repository.where(email: value).where.not(id: _context[:candidate]&.id).exists?
             key.failure('must be unique')
           end
         end
 
         rule(:birth_date) do
-          key.failure('must be in the past') if value > Date.today
+          key.failure('must be in the past') if value&.>(Date.today)
         end
       end
     end
