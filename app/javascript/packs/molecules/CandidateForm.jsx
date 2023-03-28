@@ -35,6 +35,7 @@ const CandidateForm = ({ createCandidate }) => {
                     value={newCandidate.name}
                     onChange={handleFormInputChange}
                     placeholder="Candidate name"
+                    className="mr-4"
                     required
                 />
                 <Input
@@ -43,6 +44,7 @@ const CandidateForm = ({ createCandidate }) => {
                     value={newCandidate.email}
                     onChange={handleFormInputChange}
                     placeholder="Candidate email"
+                    className="mr-4"
                     required
                 />
                 <div className="w-auto">
