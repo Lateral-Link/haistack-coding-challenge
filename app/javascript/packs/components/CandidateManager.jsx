@@ -12,6 +12,17 @@ const CandidateManager = () => {
         fetchCandidates();
     }, []);
 
+    const handleError = (error, defaultMessage) => {
+        if (error.response && error.response.data && error.response.data.errors) {
+            const errorMessages = Object.keys(error.response.data.errors).map((key) => {
+                return `${key}: ${error.response.data.errors[key][0]}`;
+            });
+            toast.error(errorMessages.join('\n'));
+        } else {
+            toast.error(defaultMessage);
+        }
+    };
+
     const fetchCandidates = async () => {
         try {
             setLoading(true);
@@ -19,7 +30,7 @@ const CandidateManager = () => {
             setCandidates(response.data);
             setLoading(false);
         } catch (error) {
-            toast.error('Failed to fetch candidates.');
+            handleError(error, 'Failed to fetch candidates.');
             setLoading(false);
         }
     };
@@ -30,7 +41,7 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate created successfully!');
         } catch (error) {
-            toast.error('Failed to create candidate.');
+            handleError(error, 'An error occurred while creating the candidate. Please try again later.');
         }
     };
 
@@ -40,7 +51,7 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate updated successfully!');
         } catch (error) {
-            toast.error('Failed to update candidate.');
+            handleError(error, 'An error occurred while updating the candidate. Please try again later.');
         }
     };
 
@@ -50,7 +61,7 @@ const CandidateManager = () => {
             fetchCandidates();
             toast.success('Candidate deleted successfully!');
         } catch (error) {
-            toast.error('Failed to delete candidate.');
+            handleError(error, 'Failed to delete candidate.');
         }
     };
 
