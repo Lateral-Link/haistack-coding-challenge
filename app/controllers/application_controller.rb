@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
       on.success { |status:, presenter:| render json: presenter, status: status }
 
       on.failure(Dry::Validation::Result) do |validation|
-        render json: { errors: validation.errors.to_h }, status: :unprocessable_entity
+        render json: { error: validation.errors.to_h }, status: :unprocessable_entity
       end
 
       on.failure(:not_found) do
-        render json: { error: 'not found' }, status: :not_found
+        render json: { error: 'record not found' }, status: :not_found
       end
 
       on.failure do

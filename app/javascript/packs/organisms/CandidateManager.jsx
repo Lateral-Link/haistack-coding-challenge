@@ -13,10 +13,13 @@ const CandidateManager = () => {
     }, []);
 
     const handleError = (error, defaultMessage) => {
-        if (error.response && error.response.data && error.response.data.errors) {
-            const errorMessages = Object.keys(error.response.data.errors).map((key) => {
-                return `${key}: ${error.response.data.errors[key][0]}`;
-            });
+        const errorData = error.response?.data?.error;
+
+        if (errorData) {
+            const errorMessages = Array.isArray(errorData)
+                ? errorData.map((item) => item)
+                : Object.entries(errorData).map(([key, value]) => `${key}: ${value[0]}`);
+
             toast.error(errorMessages.join('\n'));
         } else {
             toast.error(defaultMessage);
