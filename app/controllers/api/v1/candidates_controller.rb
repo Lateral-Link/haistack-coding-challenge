@@ -1,12 +1,10 @@
 class Api::V1::CandidatesController < ApplicationController
   def index
-    @candidates = Candidate.all
-    render json: @candidates.as_json(only: %i[id name email birth_date])
+    call_action(index_candidate)
   end
 
   def show
-    @candidate = Candidate.find(params[:id])
-    render json: @candidate.as_json(only: %i[id name email birth_date])
+    call_action(show_candidate)
   end
 
   def create
@@ -22,6 +20,14 @@ class Api::V1::CandidatesController < ApplicationController
   end
 
   private
+
+  def index_candidate
+    CandidateServices::V1::Index::UseCase.new
+  end
+
+  def show_candidate
+    CandidateServices::V1::Show::UseCase.new
+  end
 
   def create_candidate
     CandidateServices::V1::Create::UseCase.new

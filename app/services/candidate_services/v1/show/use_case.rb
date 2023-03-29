@@ -1,25 +1,23 @@
 module CandidateServices
   module V1
-    module Delete
+    module Show
       class UseCase < BaseService
         def call(request)
           valid_data = validator.call(request.params.to_h)
-          return Failure(:not_found) unless valid_data.context[:candidate]
           return Failure(valid_data) unless valid_data.success?
+          return Failure(:not_found) unless valid_data.context[:candidate]
 
-          candidate = yield persist.call(:delete, valid_data.to_h, valid_data.context[:candidate])
-          presenter = { message: 'Candidate deleted' }
+          presenter = valid_data.context[:candidate].as_json(only: %i[id name email birth_date])
 
           Success(status: :ok, presenter: presenter)
         end
 
         private
 
-        attr_reader :validator, :persist
+        attr_reader :validator
 
         def initialize
           @validator = Validator.new(repository: Candidate)
-          @persist = Utilities::Persist.new(Candidate)
         end
       end
     end

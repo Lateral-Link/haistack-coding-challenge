@@ -4,7 +4,7 @@ module Utilities
       @repository = repository
     end
 
-    def call(args, action = nil, record = nil)
+    def call(action = nil, args = nil , record = nil)
       case action
       when :create
         record = @repository.create!(args)

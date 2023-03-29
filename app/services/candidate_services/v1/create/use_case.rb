@@ -4,7 +4,7 @@ module CandidateServices
       class UseCase < BaseService
         def call(request)
           valid_data = yield validator.call(request.params.to_h)
-          candidate = yield persist.call(valid_data.to_h, :create)
+          candidate = yield persist.call(:create, valid_data.to_h)
           presenter = candidate.as_json(only: %i[id name email birth_date])
 
           Success(status: :created, presenter: presenter)
