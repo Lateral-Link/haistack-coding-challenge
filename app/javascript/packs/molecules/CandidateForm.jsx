@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CandidateForm = ({ createCandidate }) => {
     const [newCandidate, setNewCandidate] = useState({
@@ -26,6 +26,14 @@ const CandidateForm = ({ createCandidate }) => {
         setNewCandidate({ name: '', email: '', birth_date: '' });
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSubmit(event);
+        } else if (event.key === 'Escape') {
+            setNewCandidate({ name: '', email: '', birth_date: '' });
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit} className="mb-6">
             <div className="flex items-center justify-center">
@@ -34,6 +42,7 @@ const CandidateForm = ({ createCandidate }) => {
                     name="name"
                     value={newCandidate.name}
                     onChange={handleFormInputChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Candidate name"
                     className="mr-4"
                     required
@@ -43,17 +52,18 @@ const CandidateForm = ({ createCandidate }) => {
                     name="email"
                     value={newCandidate.email}
                     onChange={handleFormInputChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Candidate email"
                     className="mr-4"
                     required
                 />
                 <div className="w-auto">
-                    <ReactDatePicker
+                    <DatePicker
                         selected={newCandidate.birth_date}
                         onChange={handleDateChange}
-                        dateFormat="yyyy-MM-dd"
-                        placeholderText="Candidate birth date"
-                        className="px-4 py-2 mr-4 bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm w-auto"
+                        onKeyDown={handleKeyDown}
+                        placeholderText="yyyy-MM-dd"
+                        className="px-4 py-2 text-center bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm mr-4"
                         required
                     />
                 </div>

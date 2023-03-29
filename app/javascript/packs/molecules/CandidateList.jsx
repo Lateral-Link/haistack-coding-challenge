@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
     const [editingCandidateId, setEditingCandidateId] = useState(null);
     const [editedCandidates, setEditedCandidates] = useState({});
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+    const [filterText, setFilterText] = useState('');
 
-    const handleInputChange = (id, field, value) => {
+    const handleInputChange = (candidateId, fieldName, fieldValue) => {
         setEditedCandidates({
             ...editedCandidates,
-            [id]: { ...editedCandidates[id], [field]: value },
+            [candidateId]: { ...editedCandidates[candidateId], [fieldName]: fieldValue },
         });
     };
 
@@ -34,78 +38,149 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
     const handleKeyDown = (event, id) => {
         if (event.key === 'Enter') {
             handleSave(id);
+        } else if (event.key === 'Escape') {
+            setEditingCandidateId(null);
         }
+    };
+    const adjustDateForTimezone = (date) => {
+        const adjustedDate = new Date(date);
+        const offset = adjustedDate.getTimezoneOffset();
+        adjustedDate.setMinutes(adjustedDate.getMinutes() + offset);
+        return adjustedDate;
+    };
+
+
+    const requestSort = (key) => {
+        const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
+        setSortConfig({ key, direction });
+    };
+
+    const filterData = (data, filter) => {
+        if (!filter) {
+            return data;
+        }
+
+        const filterLowerCase = filter.toLowerCase();
+
+        return data.filter((candidate) =>
+            candidate.name.toLowerCase().includes(filterLowerCase) ||
+            candidate.email.toLowerCase().includes(filterLowerCase) ||
+            candidate.birth_date.toLowerCase().includes(filterLowerCase)
+        );
+    };
+
+    // Logic for sorting
+    const sortData = (data, config) => {
+        if (config.key === null) {
+            return data;
+        }
+
+        const sortedData = [...data].sort((a, b) => {
+            if (a[config.key] < b[config.key]) {
+                return config.direction === 'asc' ? -1 : 1;
+            }
+            if (a[config.key] > b[config.key]) {
+                return config.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+
+        return sortedData;
     };
 
     return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center flex-col">
+            <Input
+                type="text"
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+                icon="fas fa-search"
+            />
             {candidates.length > 0 ? (
-                <table className="min-w-full text-center divide-y divide-gray-200">
+                <table className="min-w-full text-center divide-y divide-gray-200 mb-2">
                     <thead>
                         <tr>
-                            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Birth Date</th>
+                            <th
+                                className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                onClick={() => requestSort('name')}
+                            >
+                                Name
+                            </th>
+                            <th
+                                className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                onClick={() => requestSort('email')}
+                            >
+                                Email
+                            </th>
+                            <th
+                                className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                                onClick={() => requestSort('birth_date')}
+                            >
+                                Birth Date
+                            </th>
+
                             <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white text-center divide-y divide-gray-200">
-                        {candidates.map((candidate) => (
-                            <tr key={candidate.id}>
+                        {sortData(filterData(candidates, filterText), sortConfig).map(({ id, name, email, birth_date }) => (
+                            <tr key={id}>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    {editingCandidateId === candidate.id ? (
+                                    {editingCandidateId === id ? (
                                         <Input
                                             type="text"
-                                            value={editedCandidates[candidate.id]?.name || candidate.name}
-                                            onChange={(e) => handleInputChange(candidate.id, 'name', e.target.value)}
-                                            onKeyDown={(e) => handleKeyDown(e, candidate.id)}
+                                            value={editedCandidates[id]?.name || name}
+                                            onChange={(e) => handleInputChange(id, 'name', e.target.value)}
+                                            onKeyDown={(e) => handleKeyDown(e, id)}
                                         />
                                     ) : (
-                                        candidate.name
+                                        name
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    {editingCandidateId === candidate.id ? (
+                                    {editingCandidateId === id ? (
                                         <Input
                                             type="email"
-                                            value={editedCandidates[candidate.id]?.email || candidate.email}
-                                            onChange={(e) => handleInputChange(candidate.id, 'email', e.target.value)}
-                                            onKeyDown={(e) => handleKeyDown(e, candidate.id)}
+                                            value={editedCandidates[id]?.email || email}
+                                            onChange={(e) => handleInputChange(id, 'email', e.target.value)}
+                                            onKeyDown={(e) => handleKeyDown(e, id)}
                                         />
                                     ) : (
-                                        candidate.email
+                                        email
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    {editingCandidateId === candidate.id ? (
-                                        <Input
-                                            type="date"
-                                            value={editedCandidates[candidate.id]?.birth_date || candidate.birth_date}
-                                            onChange={(e) => handleDateInputChange(candidate.id, e.target.value)}
-                                            onKeyDown={(e) => handleKeyDown(e, candidate.id)}
+                                    {editingCandidateId === id ? (
+                                        < DatePicker
+                                            selected={adjustDateForTimezone(editedCandidates[id]?.birth_date || birth_date)}
+                                            onChange={(date) => handleDateInputChange(id, date)}
+                                            onKeyDown={(e) => handleKeyDown(e, id)}
+                                            dateFormat="yyyy-MM-dd"
+                                            className="px-4 py-2 bg-gray-100 text-center rounded-md focus:outline-none focus:bg-white focus:shadow-sm mr-4"
+                                            required
                                         />
                                     ) : (
-                                        candidate.birth_date
+                                        birth_date
                                     )}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    {editingCandidateId === candidate.id ? (
+                                    {editingCandidateId === id ? (
                                         <Button
-                                            onClick={() => handleSave(candidate.id)}
+                                            onClick={() => handleSave(id)}
                                             className="mr-2"
                                         >
                                             Save
                                         </Button>
                                     ) : (
                                         <Button
-                                            onClick={() => handleEdit(candidate.id)}
+                                            onClick={() => handleEdit(id)}
                                             className="mr-2"
                                         >
                                             Edit
                                         </Button>
                                     )}
                                     <Button
-                                        onClick={() => handleDelete(candidate.id)}
+                                        onClick={() => handleDelete(id)}
                                     >
                                         Delete
                                     </Button>
