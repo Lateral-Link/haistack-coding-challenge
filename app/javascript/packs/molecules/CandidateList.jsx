@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
-import DatePicker from "react-datepicker";
 import InputMask from 'react-input-mask';
-import "react-datepicker/dist/react-datepicker.css";
 
 const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
     const [editingCandidateId, setEditingCandidateId] = useState(null);
@@ -27,10 +25,6 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
         deleteCandidate(id);
     };
 
-    const handleDateInputChange = (id, value) => {
-        handleInputChange(id, 'birth_date', value);
-    };
-
     const handleSave = (id) => {
         updateCandidate(id, editedCandidates[id]);
         setEditingCandidateId(null);
@@ -43,13 +37,6 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
             setEditingCandidateId(null);
         }
     };
-    const adjustDateForTimezone = (date) => {
-        const adjustedDate = new Date(date);
-        const offset = adjustedDate.getTimezoneOffset();
-        adjustedDate.setMinutes(adjustedDate.getMinutes() + offset);
-        return adjustedDate;
-    };
-
 
     const requestSort = (key) => {
         const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
@@ -133,6 +120,7 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                                             value={editedCandidates[id]?.name || name}
                                             onChange={(e) => handleInputChange(id, 'name', e.target.value)}
                                             onKeyDown={(e) => handleKeyDown(e, id)}
+                                            required
                                         />
                                     ) : (
                                         name
@@ -145,6 +133,7 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                                             value={editedCandidates[id]?.email || email}
                                             onChange={(e) => handleInputChange(id, 'email', e.target.value)}
                                             onKeyDown={(e) => handleKeyDown(e, id)}
+                                            required
                                         />
                                     ) : (
                                         email
@@ -152,17 +141,12 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {editingCandidateId === id ? (
-                                        < DatePicker
-                                            selected={adjustDateForTimezone(editedCandidates[id]?.birth_date || birth_date)}
-                                            onChange={(date) => handleDateInputChange(id, date)}
+                                        <InputMask
+                                            mask="9999-99-99"
+                                            value={editedCandidates[id]?.birth_date || birth_date}
+                                            onChange={(e) => handleInputChange(id, 'birth_date', e.target.value)}
                                             onKeyDown={(e) => handleKeyDown(e, id)}
-                                            dateFormat="yyyy-MM-dd"
-                                            className="px-4 py-2 bg-gray-100 text-center rounded-md focus:outline-none focus:bg-white focus:shadow-sm mr-4"
-                                            customInput={
-                                                <InputMask
-                                                    mask="9999-99-99"
-                                                    className="px-4 py-2 text-center bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm mr-4"
-                                                />}
+                                            className="px-4 py-2 text-center bg-gray-100 rounded-md focus:outline-none focus:bg-white focus:shadow-sm mr-4"
                                             required
                                         />
                                     ) : (
@@ -195,7 +179,7 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
                         ))}
                     </tbody>
                 </table>) : (
-                <h2 className="text-2xl h-full text-gray-700">No Candidates registered</h2>
+                <h2 className="text-2xl mt-36 h-full text-gray-700">No Candidates registered</h2>
             )}
         </div>
     );
