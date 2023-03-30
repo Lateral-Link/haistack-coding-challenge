@@ -57,7 +57,6 @@ const CandidateList = ({ candidates, updateCandidate, deleteCandidate }) => {
         );
     };
 
-    // Logic for sorting
     const sortData = (data, config) => {
         if (config.key === null) {
             return data;
