@@ -1,46 +1,104 @@
-/* candidates.css */
+/* CandidateList.css */
 
-.table {
+/* Center the title and add space between the title and table */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container {
+  text-align: center;
+}
+
+.table-container {
+  margin-top: 20px; /* Add some distance between the title and the table */
+  width: 75%; /* Set the table width to 75% of the container */
+  margin-left: auto; /* Center the table horizontally */
+  margin-right: auto;
+}
+
+.table-container table {
+  width: 100%; /* Make the table occupy the full width of the container */
+  /* Add other table styles as needed */
+}
+
+.create-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 12px;
+  opacity: 0.7;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+
+.create-button:hover {
+  opacity: 1;
+}
+
+/* Reset some styles from previous CSS */
+.candidate-list-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.candidate-list-title {
+  font-size: 24px;
+  color: #333;
+}
+
+.candidate-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
 }
 
-.table th, .table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
+.candidate-table .table-row:nth-child(even) {
+  background-color: #ededed; 
 }
 
-.table thead th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
 }
 
-.table tbody+tbody {
-  border-top: 2px solid #dee2e6;
+.table-header {
+  font-weight: bold;
 }
 
-.table .thead-dark th {
-  color: #fff;
-  background-color: #343a40;
-  border-color: #454d55;
+.table-cell {
+  flex: 1;
 }
 
-.table-primary, .table-primary>th, .table-primary>td {
-  background-color: #b8daff;
+.action-button {
+  margin-right: 5px;
 }
 
-.table-primary th, .table-primary td, .table-primary thead th, .table-primary tbody+tbody {
-  border-color: #7abaff;
+.no-candidates-message {
+  font-style: italic;
+  color: #999;
 }
 
-.table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.075);
+.table-cell.table-button {
+  text-align: right;
 }
 
-.table-primary-hover tbody tr:hover {
-  background-color: rgba(88, 111, 132, 0.075);
+.action-button {
+  background-color: #5ba6f5; /* Blue color for buttons */
+  color: #fff; /* White text color */
+  border: none;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-/* Adicione mais estilos conforme necessário */
+.action-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
