@@ -2,6 +2,10 @@ module Api
   class CandidatesController < ApplicationController
     before_action :set_candidate, only: %i[show update destroy]
 
+    def index_view
+      render 'home/index'
+    end
+
     def index
       candidates = Candidate.all
       render json: candidates

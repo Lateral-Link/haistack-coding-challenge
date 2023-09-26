@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'home#index'
+  root 'api/candidates#index_view'
   namespace :api do
     resources :candidates, only: %i[index create update destroy]
     get '/candidates/:id', to: 'candidates#show'
