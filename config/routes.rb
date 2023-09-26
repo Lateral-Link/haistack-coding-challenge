@@ -1,7 +1,8 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
   root 'home#index'
+  namespace :api do
+    resources :candidates, only: %i[index create update destroy]
+    get '/candidates/:id', to: 'candidates#show'
+    put '/api/candidates/:id', to: 'api/candidates#update'
+  end
 end
