@@ -1,17 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
-import CandidateList from './CandidateList';
-import CandidateNew from './CandidateNew';
+// This file is automatically compiled by Webpack, along with any other files
+// present in this directory. You're encouraged to place your actual application logic in
+// a relevant structure within app/javascript and only use these pack files to reference
+// that code so it'll be compiled.
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<CandidateList />} />
-        <Route path="/candidate/new" element={<CandidateNew />} />
-      </Routes>
-    </BrowserRouter>,
-    document.getElementById('root')
-  );
-});
+import Rails from "@rails/ujs"
+
+Rails.start()

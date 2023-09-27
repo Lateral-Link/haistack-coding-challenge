@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2023_09_26_151450) do
 
-  create_table "candidates", charset: "latin1", force: :cascade do |t|
+  create_table "candidates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.date "date_of_birth"
