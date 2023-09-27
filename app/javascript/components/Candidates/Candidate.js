@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import styled from 'styled-components'
+import axios from 'axios';
 
 const TableRow = styled.div `
   display: flex;
@@ -42,7 +43,8 @@ const TableCell = styled.div `
   }
 `
 
-const Candidate = ({name, email, date_of_birth, id, ...props}) => {
+const Candidate = ({name, email, date_of_birth, id, onDelete}) => {
+
   return (
     <TableRow key={id}>
       <TableCell className='candidate-name'>{name}</TableCell>
@@ -50,8 +52,8 @@ const Candidate = ({name, email, date_of_birth, id, ...props}) => {
       <TableCell className='candidate-date-of-birth'>{date_of_birth}</TableCell>
       <TableCell className='candidate-link'>
         <Link to={`/candidates/${id}`} >View Candidate</Link>
-        Delete_Button
-        Edit_Button
+       <button className="delete-button action-button" onClick={() => onDelete(id)}>Delete</button>
+        <Link to={`/candidates/${id}/update`}>Edit Button</Link>
       </TableCell >
     </TableRow>
   )

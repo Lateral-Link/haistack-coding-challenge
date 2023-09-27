@@ -1,4 +1,5 @@
-import React, {useState, useEffect, Fragment} from "react";
+import React, {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Candidate from './Candidate';
 import Tableheader from "./TableHeader";
@@ -33,6 +34,22 @@ const Candidates = () => {
 
   }, [candidates.length])
 
+  const handleDeleteCandidate = (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this candidate?");
+    const url = `/api/v1/candidates/${id}`;
+    if (confirmed) {
+      axios.delete(url)
+        .then(response => {
+          if (response.status === 204) {
+            console.log('Candidate deleted successfully');
+            setCandidates(prevCandidates => prevCandidates.filter(candidate => candidate.id !== id)); // Atualiza a lista removendo o candidato excluído
+          } else {
+            console.error('Error deleting candidate:', response.statusText);
+          }
+        });
+    }
+  }
+
   const table = candidates.map(item => {
     return (
       <Candidate 
@@ -40,6 +57,7 @@ const Candidates = () => {
       email={item.email}
       date_of_birth={item.date_of_birth}
       id={item.id}
+      onDelete={handleDeleteCandidate}
       />
     )
   })
@@ -50,6 +68,7 @@ const Candidates = () => {
       <h1>Candidates</h1>
       <Subheader>Candidates List</Subheader>
     </Header>
+    <Link to={`/candidate/new`} >Create candidate</Link>
     <Tableheader/>
       {table}
   </Home>
