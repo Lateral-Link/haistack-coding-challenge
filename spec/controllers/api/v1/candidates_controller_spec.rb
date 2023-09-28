@@ -1,11 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::CandidatesController, type: :controller do
+RSpec.describe Api::V1::CandidatesController, type: :controller do
   describe 'GET #index' do
     it 'returns a list of candidates' do
       # Create some candidate records in the test database
-      candidate1 = Candidate.create(name: 'John Doe', email: 'john@example.com', date_of_birth: '1990-01-01')
-      candidate2 = Candidate.create(name: 'Jane Doe', email: 'jane@example.com', date_of_birth: '1992-02-02')
+      candidate1 = Candidate.create(name: 'Guilherme Andreúce Sobreira Monteiro',
+                                    email: 'guilherme.andreuce-2@gmail.com', date_of_birth: '1996-10-24')
+      candidate2 = Candidate.create(name: 'Nicole Borba Monteiro', email: 'nicole@teste.com',
+                                    date_of_birth: '1995-04-25')
 
       # Send a GET request to the index action
       get :index
@@ -15,9 +17,9 @@ RSpec.describe Api::CandidatesController, type: :controller do
 
       # Parse the JSON response and check if it contains the expected data
       response_json = JSON.parse(response.body)
-      expect(response_json.length).to eq(2)
-      expect(response_json[0]['name']).to eq('John Doe')
-      expect(response_json[1]['name']).to eq('Jane Doe')
+      expect(response_json['candidates'].length).to eq(10)
+      expect(response_json['candidates'][0]['name']).to eq('Guilherme Andreúce Sobreira Monteiro')
+      expect(response_json['candidates'][1]['name']).to eq('Nicole Borba Monteiro')
     end
   end
 
