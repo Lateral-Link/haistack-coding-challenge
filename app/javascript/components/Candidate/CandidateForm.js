@@ -1,6 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import axios from "axios";
+import styled from 'styled-components';
+import Button from '../Common/Button'; 
+
+const Container = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const FormTitle = styled.h2`
+  color: #333; /* Cor do título */
+  font-size: 24px;
+  margin-bottom: 20px;
+`;
+
+const Form = styled.form`
+  text-align: left;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 20px;
+`;
+
+const FormLabel = styled.label`
+  display: block;
+  font-weight: bold;
+  color: #555; /* Cor das labels */
+`;
+
+const FormInput = styled.input`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const Alert = styled.div`
+  color: red;
+  margin-bottom: 10px;
+`;
+
+
 
 const CandidateForm = (props) => {
   const { id } = useParams();
@@ -10,6 +52,10 @@ const CandidateForm = (props) => {
     email: "",
     date_of_birth: ""
   });
+
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const [userExistsAlert, setUserExistsAlert] = useState(false);
 
   useEffect(() => {
     if (isUpdating) {
@@ -28,82 +74,102 @@ const CandidateForm = (props) => {
 
   const handleChange = (e) => {
     setCandidateForm({ ...candidateForm, [e.target.name]: e.target.value });
+    setHasChanges(true); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const confirmed = window.confirm(
-      isUpdating
-        ? "Are you sure you want to update this candidate?"
-        : "Are you sure you want to create this candidate?"
-    );
-
-    if (confirmed) {
+  
+    if (!hasChanges) {
+      props.history.push("/");
+      return;
+    }
+  
+    if (isUpdating) {
+      const confirmed = window.confirm("Are you sure you want to update this candidate?");
+  
+      if (confirmed) {
+        try {
+          const response = await axios.put(`/api/v1/candidates/${id}`, candidateForm);
+  
+          if (response.status === 200 || response.status === 201) {
+            props.history.push("/");
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 422) {
+            setUserExistsAlert(true);
+          } else {
+            console.error(error);
+          }
+        }
+      }
+    } else {
       try {
-        const response = isUpdating
-          ? await axios.put(`/api/v1/candidates/${id}`, candidateForm)
-          : await axios.post(`/api/v1/candidates`, candidateForm);
-
-        if (response.status === 200 || response.status === 201) {
+        const response = await axios.post(`/api/v1/candidates`, candidateForm);
+  
+        if (response.status === 201) {
           props.history.push("/");
         }
       } catch (error) {
-        console.error(error);
+        if (error.response && error.response.status === 422) {
+          setUserExistsAlert(true);
+        } else {
+          console.error(error);
+        }
       }
     }
   };
 
   return (
-    <div className="container">
-      <h2 className="form-title">
+    <Container>
+      <FormTitle>
         {isUpdating ? "Update Candidate" : "Create Candidate" }
-      </h2>
-      <form className="update-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name" className="form-label">
+      </FormTitle>
+
+      { userExistsAlert && <Alert>User already exists.</Alert>}
+
+      <Form className="update-form" onSubmit={handleSubmit}>
+        <FormGroup>
+          <FormLabel htmlFor="name">
             Name:
-          </label>
-          <input
+          </FormLabel>
+          <FormInput
             type="text"
             id="name"
             name="name"
             value={candidateForm.name}
             onChange={handleChange}
-            className="form-input"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="email">
             Email:
-          </label>
-          <input
+          </FormLabel>
+          <FormInput
             type="email"
             id="email"
             name="email"
             value={candidateForm.email}
             onChange={handleChange}
-            className="form-input"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="date_of_birth" className="form-label">
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="date_of_birth">
             Date of Birth:
-          </label>
-          <input
+          </FormLabel>
+          <FormInput
             type="date"
             id="date_of_birth"
             name="date_of_birth"
             value={candidateForm.date_of_birth}
             onChange={handleChange}
-            className="form-input"
           />
-        </div>
-        <button type="submit" className="submit-button">
+        </FormGroup>
+        <Button type="submit">
           {isUpdating ? "Update" : "Create"}
-        </button>
-      </form>
-    </div>
+        </Button>
+      </Form>
+    </Container>
   );
 };
 

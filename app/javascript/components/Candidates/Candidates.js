@@ -21,6 +21,21 @@ const Subheader = styled.div`
   font-weight: 300;
   font-size: 26px;
 `
+const CreateCandidateLink = styled(Link)`
+  display: block;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  background-color: #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #000;
+
+  &:hover {
+    background-color: #333;
+  }
+`;
 
 const Candidates = () => {
   const [candidates, setCandidates] = useState([])
@@ -65,10 +80,10 @@ const Candidates = () => {
   return (
   <Home>
     <Header>
-      <h1>Candidates</h1>
+      <h1>Candidates Manager</h1>
       <Subheader>Candidates List</Subheader>
     </Header>
-    <Link to={`/candidate/new`} >Create candidate</Link>
+    <CreateCandidateLink to={`/candidate/new`} >Create candidate</CreateCandidateLink>
     <Tableheader/>
       {table}
   </Home>
