@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const TableHeaderRow = styled.div`
   display: flex;
@@ -6,11 +6,11 @@ export const TableHeaderRow = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
   font-weight: bold;
-  `
+`;
 
 export const TableCell = styled.div`
   flex: 1;
-`  
+`;
 
 export const ClickableText = styled.span`
   cursor: pointer;
@@ -19,4 +19,4 @@ export const ClickableText = styled.span`
   &:hover {
     text-decoration: underline;
   }
-`
+`;

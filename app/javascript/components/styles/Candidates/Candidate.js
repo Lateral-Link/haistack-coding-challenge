@@ -1,21 +1,21 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const TableRow = styled.div `
+export const TableRow = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
-  
-  &:nth-child(even) {
-    background-color: #ededed; 
-  }
-`
 
-export const TableCell = styled.div `
+  &:nth-child(even) {
+    background-color: #ededed;
+  }
+`;
+
+export const TableCell = styled.div`
   flex: 1;
 
-  &.candidate-name, 
-  &.candidate-email, 
+  &.candidate-name,
+  &.candidate-email,
   &.candidate-date-of-birth,
   &.candidate-link {
     padding: 20px 0 10px 0;
@@ -41,4 +41,4 @@ export const TableCell = styled.div `
       }
     }
   }
-`
+`;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   max-width: 600px;
@@ -23,7 +23,7 @@ export const FormGroup = styled.div`
 export const FormLabel = styled.label`
   display: block;
   font-weight: bold;
-  color: #555; 
+  color: #555;
 `;
 
 export const FormInput = styled.input`

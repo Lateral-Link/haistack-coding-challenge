@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Button from '../Common/Button'; 
-import { Container, Form, FormGroup, FormLabel, FormInput, FormTitle, Alert } from "../styles/Candidate/CandidateForm";
+import Button from "../Common/Button";
+import {
+  Container,
+  Form,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  FormTitle,
+  Alert,
+} from "../styles/Candidate/CandidateForm";
 
 const CandidateForm = (props) => {
   const { id } = useParams();
-  const isUpdating = !isNaN(id)
+  const isUpdating = !isNaN(id);
   const [candidateForm, setCandidateForm] = useState({
     name: "",
     email: "",
-    date_of_birth: ""
+    date_of_birth: "",
   });
 
   const [hasChanges, setHasChanges] = useState(false);
@@ -37,24 +45,36 @@ const CandidateForm = (props) => {
 
   const handleChange = (e) => {
     setCandidateForm({ ...candidateForm, [e.target.name]: e.target.value });
-    setHasChanges(true); 
+    setHasChanges(true);
   };
 
   const handleErrors = (error) => {
-    console.log(error.response)
+    console.log(error.response);
     if (error.response && error.response.status === 422) {
       const errorData = error.response.data;
-      console.log(errorData.error)
-      console.log(errorData.error.includes("must be at least 16 years old"))
-      if (errorData.error.some(message => message.includes("must be in the past"))) {
+      console.log(errorData.error);
+      console.log(errorData.error.includes("must be at least 16 years old"));
+      if (
+        errorData.error.some((message) =>
+          message.includes("must be in the past")
+        )
+      ) {
         setDateInvalidAlert(true);
-        setUnderAgeInvalidAlert(false);  
-      } else if (errorData.error.some(message => message.includes("must be at least 16 years old"))) {
-        setUnderAgeInvalidAlert(true);       
-        setDateInvalidAlert(false); 
-      } else if (errorData.error.some(message => message.includes("must be at most 70 years old"))) {
-          setMaxAgeInvalidAlert(true);       
-          setDateInvalidAlert(false); 
+        setUnderAgeInvalidAlert(false);
+      } else if (
+        errorData.error.some((message) =>
+          message.includes("must be at least 16 years old")
+        )
+      ) {
+        setUnderAgeInvalidAlert(true);
+        setDateInvalidAlert(false);
+      } else if (
+        errorData.error.some((message) =>
+          message.includes("must be at most 70 years old")
+        )
+      ) {
+        setMaxAgeInvalidAlert(true);
+        setDateInvalidAlert(false);
       } else {
         setUserExistsAlert(true);
       }
@@ -72,11 +92,16 @@ const CandidateForm = (props) => {
     }
 
     if (isUpdating) {
-      const confirmed = window.confirm("Are you sure you want to update this candidate?");
+      const confirmed = window.confirm(
+        "Are you sure you want to update this candidate?"
+      );
 
       if (confirmed) {
         try {
-          const response = await axios.put(`/api/v1/candidates/${id}`, candidateForm);
+          const response = await axios.put(
+            `/api/v1/candidates/${id}`,
+            candidateForm
+          );
 
           if (response.status === 200 || response.status === 201) {
             props.history.push("/");
@@ -101,19 +126,23 @@ const CandidateForm = (props) => {
   return (
     <Container>
       <FormTitle>
-        {isUpdating ? "Update Candidate" : "Create Candidate" }
+        {isUpdating ? "Update Candidate" : "Create Candidate"}
       </FormTitle>
 
-      { userExistsAlert && <Alert>User already exists.</Alert>}
-      { dateInvalidAlert && <Alert>Invalid date of birth. Please select a date in the past.</Alert>}
-      { underAgeInvalidAlert && <Alert>Candidate must be at least 16 years old.</Alert>}
-      { maxAgeInvalidAlert && <Alert>Candidate must be at most 70 years old.</Alert>}
+      {userExistsAlert && <Alert>User already exists.</Alert>}
+      {dateInvalidAlert && (
+        <Alert>Invalid date of birth. Please select a date in the past.</Alert>
+      )}
+      {underAgeInvalidAlert && (
+        <Alert>Candidate must be at least 16 years old.</Alert>
+      )}
+      {maxAgeInvalidAlert && (
+        <Alert>Candidate must be at most 70 years old.</Alert>
+      )}
 
       <Form className="update-form" onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel htmlFor="name">
-            Name:
-          </FormLabel>
+          <FormLabel htmlFor="name">Name:</FormLabel>
           <FormInput
             type="text"
             id="name"
@@ -123,9 +152,7 @@ const CandidateForm = (props) => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel htmlFor="email">
-            Email:
-          </FormLabel>
+          <FormLabel htmlFor="email">Email:</FormLabel>
           <FormInput
             type="email"
             id="email"
@@ -135,9 +162,7 @@ const CandidateForm = (props) => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel htmlFor="date_of_birth">
-            Date of Birth:
-          </FormLabel>
+          <FormLabel htmlFor="date_of_birth">Date of Birth:</FormLabel>
           <FormInput
             type="date"
             id="date_of_birth"
@@ -146,9 +171,7 @@ const CandidateForm = (props) => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button type="submit">
-          {isUpdating ? "Update" : "Create"}
-        </Button>
+        <Button type="submit">{isUpdating ? "Update" : "Create"}</Button>
       </Form>
     </Container>
   );

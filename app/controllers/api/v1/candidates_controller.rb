@@ -25,7 +25,6 @@ module Api
         when "date_of_birth"
           candidates = candidates.order(date_of_birth: order_direction)
         else
-          # Caso nenhuma coluna de classificação específica seja fornecida, padrão para a coluna "name"
           candidates = candidates.order(name: "asc")
         end
       

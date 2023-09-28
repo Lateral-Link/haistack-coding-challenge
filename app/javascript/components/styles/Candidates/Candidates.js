@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const PaginationContainer = styled.div`
@@ -53,7 +53,7 @@ export const PaginationControll = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 `;
 
 export const Home = styled.div`
@@ -61,17 +61,17 @@ export const Home = styled.div`
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  `
+`;
 export const Header = styled.div`
   padding: 100px 100px 10px 100px;
   h1 {
     font-size: 42px;
   }
-`
+`;
 export const Subheader = styled.div`
   font-weight: 300;
   font-size: 26px;
-`
+`;
 export const CreateCandidateLink = styled(Link)`
   display: block;
   margin-top: 20px;

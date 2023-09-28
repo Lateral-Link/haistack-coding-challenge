@@ -7,7 +7,7 @@ import {
   PaginationContainer,
   PaginationButton,
   PaginationControll,
-  Home, 
+  Home,
   Header,
   Subheader,
   CreateCandidateLink,
@@ -21,18 +21,19 @@ const Candidates = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [sort, setSort] = useState({ column: "name", order: "asc" });
-  const [url, setUrl] = useState(`/api/v1/candidates.json?page=1&term=${searchTerm}`);
-
+  const [url, setUrl] = useState(
+    `/api/v1/candidates.json?page=1&term=${searchTerm}`
+  );
 
   useEffect(() => {
-      let updatedUrl = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
-  
+    let updatedUrl = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
+
     if (sort.column) {
       updatedUrl += `&order_column=${sort.column}&order_direction=${sort.order}`;
     }
-  
+
     setUrl(updatedUrl);
-  
+
     axios
       .get(updatedUrl)
       .then((resp) => {
@@ -77,7 +78,7 @@ const Candidates = () => {
   const sortedCandidates = [...candidates].sort((a, b) => {
     const column = sort.column;
     const order = sort.order === "asc" ? 1 : -1;
-  
+
     if (a[column] < b[column]) {
       return -order;
     }
