@@ -57,6 +57,9 @@ export const PaginationControll = styled.div`
 `;
 
 export const Home = styled.div`
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
   text-align: center;
   max-width: 1200px;
   margin-left: auto;
