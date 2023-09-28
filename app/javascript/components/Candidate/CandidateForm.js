@@ -1,48 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import styled from 'styled-components';
 import Button from '../Common/Button'; 
-
-const Container = styled.div`
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-`;
-
-const FormTitle = styled.h2`
-  color: #333; /* Cor do título */
-  font-size: 24px;
-  margin-bottom: 20px;
-`;
-
-const Form = styled.form`
-  text-align: left;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
-
-const FormLabel = styled.label`
-  display: block;
-  font-weight: bold;
-  color: #555; /* Cor das labels */
-`;
-
-const FormInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Alert = styled.div`
-  color: red;
-  margin-bottom: 10px;
-`;
-
-
+import { Container, Form, FormGroup, FormLabel, FormInput, FormTitle, Alert } from "../styles/Candidate/CandidateForm";
 
 const CandidateForm = (props) => {
   const { id } = useParams();
@@ -56,6 +16,9 @@ const CandidateForm = (props) => {
   const [hasChanges, setHasChanges] = useState(false);
 
   const [userExistsAlert, setUserExistsAlert] = useState(false);
+  const [dateInvalidAlert, setDateInvalidAlert] = useState(false);
+  const [underAgeInvalidAlert, setUnderAgeInvalidAlert] = useState(false);
+  const [maxAgeInvalidAlert, setMaxAgeInvalidAlert] = useState(false);
 
   useEffect(() => {
     if (isUpdating) {
@@ -77,45 +40,60 @@ const CandidateForm = (props) => {
     setHasChanges(true); 
   };
 
+  const handleErrors = (error) => {
+    console.log(error.response)
+    if (error.response && error.response.status === 422) {
+      const errorData = error.response.data;
+      console.log(errorData.error)
+      console.log(errorData.error.includes("must be at least 16 years old"))
+      if (errorData.error.some(message => message.includes("must be in the past"))) {
+        setDateInvalidAlert(true);
+        setUnderAgeInvalidAlert(false);  
+      } else if (errorData.error.some(message => message.includes("must be at least 16 years old"))) {
+        setUnderAgeInvalidAlert(true);       
+        setDateInvalidAlert(false); 
+      } else if (errorData.error.some(message => message.includes("must be at most 70 years old"))) {
+          setMaxAgeInvalidAlert(true);       
+          setDateInvalidAlert(false); 
+      } else {
+        setUserExistsAlert(true);
+      }
+    } else {
+      console.error(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!hasChanges) {
       props.history.push("/");
       return;
     }
-  
+
     if (isUpdating) {
       const confirmed = window.confirm("Are you sure you want to update this candidate?");
-  
+
       if (confirmed) {
         try {
           const response = await axios.put(`/api/v1/candidates/${id}`, candidateForm);
-  
+
           if (response.status === 200 || response.status === 201) {
             props.history.push("/");
           }
         } catch (error) {
-          if (error.response && error.response.status === 422) {
-            setUserExistsAlert(true);
-          } else {
-            console.error(error);
-          }
+          handleErrors(error);
         }
       }
     } else {
       try {
         const response = await axios.post(`/api/v1/candidates`, candidateForm);
-  
+
         if (response.status === 201) {
           props.history.push("/");
         }
       } catch (error) {
-        if (error.response && error.response.status === 422) {
-          setUserExistsAlert(true);
-        } else {
-          console.error(error);
-        }
+        handleErrors(error);
       }
     }
   };
@@ -127,6 +105,9 @@ const CandidateForm = (props) => {
       </FormTitle>
 
       { userExistsAlert && <Alert>User already exists.</Alert>}
+      { dateInvalidAlert && <Alert>Invalid date of birth. Please select a date in the past.</Alert>}
+      { underAgeInvalidAlert && <Alert>Candidate must be at least 16 years old.</Alert>}
+      { maxAgeInvalidAlert && <Alert>Candidate must be at most 70 years old.</Alert>}
 
       <Form className="update-form" onSubmit={handleSubmit}>
         <FormGroup>

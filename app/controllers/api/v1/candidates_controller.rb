@@ -5,8 +5,9 @@ module Api
       protect_from_forgery with: :null_session
 
       def index
-        candidates = Candidate.all
-        render json: candidates
+        candidates = Candidate.page(params[:page]).per(10)
+        total_pages = candidates.total_pages
+        render json: { candidates: candidates, total_pages: total_pages }
       end
 
       def show

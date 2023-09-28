@@ -1,35 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  text-align: center;
-`;
-
-const CandidateInfo = styled.div`
-  margin: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: inline-block;
-  text-align: left;
-`;
-
-const CandidateName = styled.h1`
-  font-size: 24px;
-  margin-bottom: 10px;
-`;
-
-const CandidateEmail = styled.p`
-  font-size: 18px;
-  margin-bottom: 5px;
-`;
-
-const CandidateDOB = styled.p`
-  font-size: 18px;
-  margin-bottom: 5px;
-`;
+import {Wrapper, CandidateInfo, CandidateName, CandidateEmail, CandidateDOB} from "../styles/Candidate/Candidate";
 
 const Candidate = (props) => {
   const [candidate, setCandidate] = useState({});

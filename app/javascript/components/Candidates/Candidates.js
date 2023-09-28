@@ -1,53 +1,25 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Candidate from './Candidate';
 import Tableheader from "./TableHeader";
-import styled from 'styled-components'
-
-const Home = styled.div`
-  text-align: center;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  `
-const Header = styled.div`
-  padding: 100px 100px 10px 100px;
-  h1 {
-    font-size: 42px;
-  }
-`
-const Subheader = styled.div`
-  font-weight: 300;
-  font-size: 26px;
-`
-const CreateCandidateLink = styled(Link)`
-  display: block;
-  margin-top: 20px;
-  font-size: 18px;
-  color: #fff;
-  text-decoration: none;
-  background-color: #000;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: 1px solid #000;
-
-  &:hover {
-    background-color: #333;
-  }
-`;
+import ReactPaginate from 'react-paginate';
+import { PaginationContainer, PaginationButton, PaginationControll, Home, Header, Subheader, CreateCandidateLink } from "../styles/Candidates/Candidates";
 
 const Candidates = () => {
-  const [candidates, setCandidates] = useState([])
+  const [candidates, setCandidates] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
 
   useEffect(() => {
-    axios.get('/api/v1/candidates.json')
-    .then(resp => {
-      setCandidates(resp.data)
-    })
-    .catch(resp => console.log(resp))
-
-  }, [candidates.length])
+    axios.get(`/api/v1/candidates.json?page=${currentPage}`)
+      .then(resp => {
+        setCandidates(resp.data.candidates);
+        setTotalPages(resp.data.total_pages);
+      })
+      .catch(resp => console.log(resp));
+  }, [currentPage]);
+  
 
   const handleDeleteCandidate = (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this candidate?");
@@ -78,16 +50,36 @@ const Candidates = () => {
   })
 
   return (
-  <Home>
-    <Header>
-      <h1>Candidates Manager</h1>
-      <Subheader>Candidates List</Subheader>
-    </Header>
-    <CreateCandidateLink to={`/candidate/new`} >Create candidate</CreateCandidateLink>
-    <Tableheader/>
+    <Home>
+      <Header>
+        <h1>Candidates Manager</h1>
+        <Subheader>Candidates List</Subheader>
+      </Header>
+      <CreateCandidateLink to={`/candidate/new`}>Create candidate</CreateCandidateLink>
+      <Tableheader />
       {table}
-  </Home>
-  )
+      <PaginationContainer>
+      <PaginationControll> 
+          <PaginationButton onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+            Previous
+          </PaginationButton>
+          <ReactPaginate
+            pageCount={totalPages}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            onPageChange={({ selected }) => setCurrentPage(selected + 1)}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            previousLabel={""}
+            nextLabel={""}
+          />
+          <PaginationButton onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+            Next
+          </PaginationButton>
+        </PaginationControll>
+      </PaginationContainer>
+    </Home>
+  );
 }
 
 export default Candidates
