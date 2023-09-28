@@ -98,6 +98,7 @@ export const SearchInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 20px;
+  margin-top: 10px;
   text-align: center;
 
   &:focus {

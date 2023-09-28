@@ -23,7 +23,7 @@ const Candidate = (props) => {
         setCandidate(resp.data);
         const formattedDOB = format(
           new Date(resp.data.date_of_birth.replace(/-/g, "/")),
-          "dd/MM/yyyy"
+          "yyyy/MM/dd"
         );
         setFormattedDateOfBirth(formattedDOB);
       })

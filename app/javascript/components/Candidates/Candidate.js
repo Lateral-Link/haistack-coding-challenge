@@ -7,7 +7,7 @@ import { format } from "date-fns";
 const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
   const formattedDateOfBirth = format(
     new Date(date_of_birth.replace(/-/g, "/")),
-    "dd/MM/yyyy"
+    "yyyy/MM/dd"
   );
 
   return (
@@ -19,13 +19,13 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
       </TableCell>
       <TableCell className="candidate-link">
         <Link to={`/candidates/${id}`}>View Candidate</Link>
+        <Link to={`/candidates/${id}/update`}>Edit</Link>
         <Button
           className="delete-button action-button"
           onClick={() => onDelete(id)}
         >
           Delete
         </Button>
-        <Link to={`/candidates/${id}/update`}>Edit</Link>
       </TableCell>
     </TableRow>
   );

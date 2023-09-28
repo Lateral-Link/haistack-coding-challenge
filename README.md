@@ -116,3 +116,8 @@ Create the candidates section by following these rules:
 - Use another form of alert instead of alert(). It's not very user friendly (maybe toast could help)
 - Add DRY or some sort of Design Pattern to back-end (for now using MVC)
 - Add some sort of Design Pattern to front-end  (for now using Components)
+- Dropdown for actions instead of three buttons hardcoded
+- Add photo to candidate
+- Table footer with how many candidates there are in this database
+- Footer with links to github and linkedin
+- Add mailer to send email to candidate after creation
