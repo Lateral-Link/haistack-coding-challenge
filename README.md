@@ -75,6 +75,7 @@ Added candidate controller endpoints (Basic CRUD index search show create update
 Added candidate model validations (birth_date)
 Adjusted migrations to use index on email (unique key)
 Adjusted migrations to limit fields
+Disabled csrf protection for api
 Added tests for candidates controller
 Added tests for candidates model
 Rubocoped project
@@ -100,5 +101,17 @@ Adjusted CandidateForm to be used for both create and update
 Added ages and date of birth validations to CandidateForm component
 Added unique email validation to CandidateForm component
 Added function search bar to CandidateList component
-Added filter by name, email and date of birth to CandidateList component
+Added filter/sort by name, email and date of birth to CandidateList component
 Added pagination to CandidateList component
+
+## Future Improvements
+
+Add more tests to the front-end
+Add more tests to the back-end
+Add signin and signup functionality
+Add authentication and authorization
+Fix csrv without disabling it
+Change style to be more appealing
+Use another form of alert instead of alert(). It's not very user friendly (maybe toast could help)
+Add DRY or some sort of Design Pattern to back-end (for now using MVC)
+Add some sort of Design Pattern to front-end  (for now using Components)
