@@ -9,7 +9,7 @@ module Api
         sanitized_term = "%#{term}%"
         order_column = params[:order_column]
         order_direction = params[:order_direction] || 'asc'
-
+        candidates_size = Candidate.all.size
         candidates = if term.present?
                        Candidate.where('name LIKE :term OR email LIKE :term OR date_of_birth LIKE :term',
                                        term: sanitized_term)
@@ -31,7 +31,7 @@ module Api
         candidates = candidates.page(params[:page]).per(10)
         total_pages = candidates.total_pages
 
-        render json: { candidates: candidates, total_pages: total_pages }
+        render json: { candidates: candidates, total_pages: total_pages, candidates_size: candidates_size }
       end
 
       def show

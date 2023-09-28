@@ -6,12 +6,13 @@ import PaginationNumbers from "../Common/PaginationNumbers";
 import {
   PaginationContainer,
   PaginationButton,
-  PaginationControll,
+  PaginationControl,
   Home,
   Header,
   Subheader,
   CreateCandidateLink,
   SearchInput,
+  CandidateCount
 } from "../styles/Candidates/Candidates";
 
 const Candidates = () => {
@@ -22,8 +23,9 @@ const Candidates = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [sort, setSort] = useState({ column: "name", order: "asc" });
   const [url, setUrl] = useState(
-    `/api/v1/candidates.json?page=1&term=${searchTerm}`
+    `/api/v1/candidates.json`
   );
+  const [candidateCount, setCandidateCount] = useState(0);
 
   useEffect(() => {
     let updatedUrl = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
@@ -40,6 +42,7 @@ const Candidates = () => {
         const data = resp.data;
         setCandidates(data.candidates);
         setTotalPages(data.total_pages);
+        setCandidateCount(data.candidates_size);
         setSearchResult(data.candidates.length === 0 ? "not-found" : null);
       })
       .catch((resp) => console.log(resp));
@@ -124,7 +127,7 @@ const Candidates = () => {
               <Tableheader onSort={handleSort} sort={sort} />
               {table}
               <PaginationContainer>
-                <PaginationControll>
+                <PaginationControl>
                   <PaginationButton
                     onClick={() => setCurrentPage(currentPage - 1)}
                     disabled={currentPage === 1}
@@ -142,7 +145,10 @@ const Candidates = () => {
                   >
                     Next
                   </PaginationButton>
-                </PaginationControll>
+                </PaginationControl>
+                  <CandidateCount>
+                    Total Candidates: {candidateCount} 
+                  </CandidateCount>
               </PaginationContainer>
             </>
           )}

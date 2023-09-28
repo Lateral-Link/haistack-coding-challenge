@@ -49,7 +49,7 @@ export const PaginationButton = styled.button`
   }
 `;
 
-export const PaginationControll = styled.div`
+export const PaginationControl = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,4 +105,10 @@ export const SearchInput = styled.input`
     outline: none;
     border-color: #007bff;
   }
+`;
+
+export const CandidateCount = styled.div`
+  position: relative;
+  left: 40%;
+  font-weight: bold;
 `;
