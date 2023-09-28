@@ -20,11 +20,21 @@ const Candidates = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState(null);
+  const [sort, setSort] = useState({ column: "name", order: "asc" });
+  const [url, setUrl] = useState(`/api/v1/candidates.json?page=1&term=${searchTerm}`);
+
 
   useEffect(() => {
-    const url = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
+      let updatedUrl = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
+  
+    if (sort.column) {
+      updatedUrl += `&order_column=${sort.column}&order_direction=${sort.order}`;
+    }
+  
+    setUrl(updatedUrl);
+  
     axios
-      .get(url)
+      .get(updatedUrl)
       .then((resp) => {
         const data = resp.data;
         setCandidates(data.candidates);
@@ -32,7 +42,7 @@ const Candidates = () => {
         setSearchResult(data.candidates.length === 0 ? "not-found" : null);
       })
       .catch((resp) => console.log(resp));
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, sort]);
 
   const handleDeleteCandidate = (id) => {
     const confirmed = window.confirm(
@@ -53,7 +63,31 @@ const Candidates = () => {
     }
   };
 
-  const table = candidates.map((item) => {
+  const handleSort = (column) => {
+    if (sort.column === column) {
+      setSort((prevSort) => ({
+        ...prevSort,
+        order: prevSort.order === "asc" ? "desc" : "asc",
+      }));
+    } else {
+      setSort({ column, order: "asc" });
+    }
+  };
+
+  const sortedCandidates = [...candidates].sort((a, b) => {
+    const column = sort.column;
+    const order = sort.order === "asc" ? 1 : -1;
+  
+    if (a[column] < b[column]) {
+      return -order;
+    }
+    if (a[column] > b[column]) {
+      return order;
+    }
+    return 0;
+  });
+
+  const table = sortedCandidates.map((item) => {
     return (
       <Candidate
         name={item.name}
@@ -86,7 +120,7 @@ const Candidates = () => {
         <>
           {candidates.length > 0 && (
             <>
-              <Tableheader />
+              <Tableheader onSort={handleSort} sort={sort} />
               {table}
               <PaginationContainer>
                 <PaginationControll>

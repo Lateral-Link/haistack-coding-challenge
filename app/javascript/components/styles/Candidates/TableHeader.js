@@ -11,3 +11,12 @@ export const TableHeaderRow = styled.div`
 export const TableCell = styled.div`
   flex: 1;
 `  
+
+export const ClickableText = styled.span`
+  cursor: pointer;
+  color: #333;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
