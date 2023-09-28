@@ -10,14 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_26_151450) do
+ActiveRecord::Schema.define(version: 2023_09_28_030557) do
 
-  create_table "candidates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.date "date_of_birth"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table "candidates", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", limit: 100, null: false
+    t.string "email", limit: 100, null: false
+    t.date "date_of_birth", null: false
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP(6)" }, null: false
+    t.index ["email"], name: "index_candidates_on_email", unique: true
   end
 
 end

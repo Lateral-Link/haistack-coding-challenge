@@ -1,4 +1,5 @@
 class Candidate < ApplicationRecord
+  self.primary_key = :id
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validate :date_of_birth_in_past
