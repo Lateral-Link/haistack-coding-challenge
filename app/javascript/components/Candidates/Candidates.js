@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Candidate from "./Candidate";
 import Tableheader from "./TableHeader";
-import ReactPaginate from "react-paginate";
+import PaginationNumbers from "../Common/PaginationNumbers";
 import {
   PaginationContainer,
   PaginationButton,
@@ -131,17 +131,10 @@ const Candidates = () => {
                   >
                     Previous
                   </PaginationButton>
-                  <ReactPaginate
-                    pageCount={totalPages}
-                    pageRangeDisplayed={5}
-                    marginPagesDisplayed={2}
-                    onPageChange={({ selected }) =>
-                      setCurrentPage(selected + 1)
-                    }
-                    containerClassName={"pagination"}
-                    activeClassName={"active"}
-                    previousLabel={""}
-                    nextLabel={""}
+                  <PaginationNumbers
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    onPageClick={(page) => setCurrentPage(page)}
                   />
                   <PaginationButton
                     onClick={() => setCurrentPage(currentPage + 1)}
