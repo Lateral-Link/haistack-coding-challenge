@@ -7,7 +7,7 @@ export const Container = styled.div`
 `;
 
 export const FormTitle = styled.h2`
-  color: #333; /* Cor do título */
+  color: #333;
   font-size: 24px;
   margin-bottom: 20px;
 `;
@@ -23,7 +23,7 @@ export const FormGroup = styled.div`
 export const FormLabel = styled.label`
   display: block;
   font-weight: bold;
-  color: #555; /* Cor das labels */
+  color: #555; 
 `;
 
 export const FormInput = styled.input`

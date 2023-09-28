@@ -14,7 +14,7 @@ const Candidate = (props) => {
     axios.get(url)
       .then(resp => {
         setCandidate(resp.data);
-        const formattedDOB = format(new Date(resp.data.date_of_birth), 'dd/MM/yyyy');
+        const formattedDOB = format(new Date(resp.data.date_of_birth.replace(/-/g,'/')), 'dd/MM/yyyy');
         setFormattedDateOfBirth(formattedDOB);
       })
       .catch(resp => console.log(resp));

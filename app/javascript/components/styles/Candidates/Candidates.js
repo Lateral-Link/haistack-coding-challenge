@@ -53,7 +53,7 @@ export const PaginationControll = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px; /* Ajuste conforme necessário para o espaçamento */
+  margin-bottom: 10px; 
 `;
 
 export const Home = styled.div`
@@ -85,5 +85,20 @@ export const CreateCandidateLink = styled(Link)`
 
   &:hover {
     background-color: #333;
+  }
+`;
+
+export const SearchInput = styled.input`
+  width: 98%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
   }
 `;

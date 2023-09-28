@@ -3,22 +3,32 @@ import axios from "axios";
 import Candidate from './Candidate';
 import Tableheader from "./TableHeader";
 import ReactPaginate from 'react-paginate';
-import { PaginationContainer, PaginationButton, PaginationControll, Home, Header, Subheader, CreateCandidateLink } from "../styles/Candidates/Candidates";
+import {  PaginationContainer, 
+          PaginationButton, 
+          PaginationControll, 
+          Home, 
+          Header, 
+          Subheader, 
+          CreateCandidateLink,
+          SearchInput } from "../styles/Candidates/Candidates";
 
 const Candidates = () => {
   const [candidates, setCandidates] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
 
   useEffect(() => {
-    axios.get(`/api/v1/candidates.json?page=${currentPage}`)
-      .then(resp => {
+    const url = `/api/v1/candidates.json?page=${currentPage}&term=${searchTerm}`;
+    axios
+      .get(url)
+      .then((resp) => {
         setCandidates(resp.data.candidates);
         setTotalPages(resp.data.total_pages);
       })
-      .catch(resp => console.log(resp));
-  }, [currentPage]);
+      .catch((resp) => console.log(resp));
+  }, [currentPage, searchTerm]);
   
 
   const handleDeleteCandidate = (id) => {
@@ -29,7 +39,7 @@ const Candidates = () => {
         .then(response => {
           if (response.status === 204) {
             console.log('Candidate deleted successfully');
-            setCandidates(prevCandidates => prevCandidates.filter(candidate => candidate.id !== id)); // Atualiza a lista removendo o candidato excluído
+            setCandidates(prevCandidates => prevCandidates.filter(candidate => candidate.id !== id));
           } else {
             console.error('Error deleting candidate:', response.statusText);
           }
@@ -56,6 +66,12 @@ const Candidates = () => {
         <Subheader>Candidates List</Subheader>
       </Header>
       <CreateCandidateLink to={`/candidate/new`}>Create candidate</CreateCandidateLink>
+      <SearchInput
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       <Tableheader />
       {table}
       <PaginationContainer>

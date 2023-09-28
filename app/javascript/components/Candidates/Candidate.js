@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 
 
 const Candidate = ({name, email, date_of_birth, id, onDelete}) => {
-  const formattedDateOfBirth = format(new Date(date_of_birth), 'dd/MM/yyyy');
+  const formattedDateOfBirth = format(new Date(date_of_birth.replace(/-/g,'/')), 'dd/MM/yyyy');
 
   return (
     <TableRow key={id}>

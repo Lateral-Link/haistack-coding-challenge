@@ -5,7 +5,16 @@ module Api
       protect_from_forgery with: :null_session
 
       def index
-        candidates = Candidate.page(params[:page]).per(10)
+        term = params[:term]
+        sanitized_term = "%#{term}%"
+
+        candidates = if term.present?
+                       Candidate.where('name LIKE :term OR email LIKE :term OR date_of_birth LIKE :term',
+                                       term: sanitized_term)
+                     else
+                       Candidate.all
+                     end.page(params[:page]).per(10)
+
         total_pages = candidates.total_pages
         render json: { candidates: candidates, total_pages: total_pages }
       end
