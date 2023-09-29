@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import Button from "../Common/Button";
+import React, { useState, useEffect } from "react";
 import { TableRow, TableCell } from "../styles/Candidates/Candidate";
 import { format } from "date-fns";
 import Modal from "../Common/Modal";
+import Dropdown from "react-dropdown-select";
 
 const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
   const formattedDateOfBirth = format(
@@ -11,19 +10,38 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
     "yyyy/MM/dd"
   );
 
+  const options = [
+    { label: "View", value: "view" },
+    { label: "Edit", value: "edit" },
+    { label: "Delete", value: "delete" },
+  ];
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [key, setKey] = useState(0);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  useEffect(() => {
+    if (!isModalOpen) {
+      setKey(prevKey => prevKey + 1);
+    }
+  }, [isModalOpen]);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleChange = (values) => {
+    if (values[0].value === "delete") {
+      setIsModalOpen(true);
+    } else if (values[0].value === "edit") {
+      window.location.href = `/candidates/${id}/update`;
+    } else if (values[0].value === "view") {
+      window.location.href = `/candidates/${id}`;
+    }
   };
 
   const confirmDelete = () => {
     onDelete(id);
-    closeModal();
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -34,20 +52,21 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
         {formattedDateOfBirth}
       </TableCell>
       <TableCell className="candidate-link">
-        <Link to={`/candidates/${id}`}>View Candidate</Link>
-        <Link to={`/candidates/${id}/update`}>Edit</Link>
-        <Button
-          className="delete-button action-button"
-          onClick={openModal}
-        >
-          Delete
-        </Button>
-
+        <Dropdown
+          key={key} // Adicionando uma chave única
+          options={options}
+          onChange={(values) => handleChange(values)}
+          dropdownGap={5}
+          dropdownPosition="bottom"
+          placeholder="Actions"
+          inputProps={{ style: { textAlign: "center" } }}
+          style={{ marginLeft: "80px" }}
+        />
         {isModalOpen && (
           <Modal
             title="Confirm Deletion"
             message="Are you sure you want to delete this candidate?"
-            onCancel={closeModal}
+            onCancel={handleCancel}
             onConfirm={confirmDelete}
           />
         )}
