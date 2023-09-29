@@ -4,6 +4,7 @@ import Candidates from "./Candidates/Candidates";
 import Candidate from "./Candidate/Candidate";
 import CandidateForm from "./Candidate/CandidateForm";
 import GlobalFont from "../components/Common/GlobalFont";
+import Footer from "../components/Common/Footer";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route exact path="/candidates/:id/update" component={CandidateForm} />
         <Route exact path="/candidate/new" component={CandidateForm} />
       </Switch>
+      <Footer/>
     </>
   );
 };

@@ -57,7 +57,6 @@ export const PaginationControl = styled.div`
 `;
 
 export const Home = styled.div`
-  border: 2px solid #ccc;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -67,7 +66,7 @@ export const Home = styled.div`
   overflow: hidden; 
 `;
 export const Header = styled.div`
-  padding: 100px 100px 10px 100px;
+  padding: 4px 4px 2px 4px;
   h1 {
     font-size: 42px;
   }
