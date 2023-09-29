@@ -1,14 +1,16 @@
 import React from "react";
-import {ModalOverlay, ModalContent, ModalTitle, ModalButtons, ModalButton} from "../styles/Common/Modal";
+import { ModalOverlay, ModalContent, ModalTitle, ModalButtons, ModalButton } from "../styles/Common/Modal";
 
 const Modal = ({ title, message, onCancel, onConfirm }) => {
+  const hasCancel = typeof onCancel === 'function';
+
   return (
     <ModalOverlay>
       <ModalContent>
         <ModalTitle>{title}</ModalTitle>
         <p>{message}</p>
-        <ModalButtons>
-          <ModalButton onClick={onCancel}>Cancel</ModalButton>
+        <ModalButtons hasCancel={hasCancel}>
+          {hasCancel && <ModalButton onClick={onCancel}>Cancel</ModalButton>}
           <ModalButton onClick={onConfirm}>Confirm</ModalButton>
         </ModalButtons>
       </ModalContent>

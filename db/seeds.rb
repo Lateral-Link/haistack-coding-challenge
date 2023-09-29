@@ -74,4 +74,65 @@ Candidate.create(
   date_of_birth: '1994-12-03'
 )
 
+Candidate.create(
+  name: 'John Smith',
+  email: 'john.smith@example.com',
+  date_of_birth: '1980-05-15'
+)
+
+Candidate.create(
+  name: 'Jennifer Davis',
+  email: 'jennifer.davis@example.com',
+  date_of_birth: '1992-09-28'
+)
+
+Candidate.create(
+  name: 'Michael Johnson',
+  email: 'michael.johnson@example.com',
+  date_of_birth: '1975-11-08'
+)
+
+Candidate.create(
+  name: 'Sarah Brown',
+  email: 'sarah.brown@example.com',
+  date_of_birth: '1988-03-20'
+)
+
+Candidate.create(
+  name: 'David Wilson',
+  email: 'david.wilson@example.com',
+  date_of_birth: '1991-07-12'
+)
+
+Candidate.create(
+  name: 'Laura Taylor',
+  email: 'laura.taylor@example.com',
+  date_of_birth: '1986-12-30'
+)
+
+Candidate.create(
+  name: 'James Miller',
+  email: 'james.miller@example.com',
+  date_of_birth: '1983-02-18'
+)
+
+Candidate.create(
+  name: 'Emily Anderson',
+  email: 'emily.anderson@example.com',
+  date_of_birth: '1995-04-05'
+)
+
+Candidate.create(
+  name: 'Robert Jackson',
+  email: 'robert.jackson@example.com',
+  date_of_birth: '1982-10-25'
+)
+
+Candidate.create(
+  name: 'Jessica Harris',
+  email: 'jessica.harris@example.com',
+  date_of_birth: '1990-08-17'
+)
+
+
 puts 'Seeds concluídas!'

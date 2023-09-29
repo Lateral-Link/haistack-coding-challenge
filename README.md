@@ -104,7 +104,10 @@ Create the candidates section by following these rules:
 - Added function search bar to CandidateList component
 - Added filter/sort by name, email and date of birth to CandidateList component
 - Added pagination to CandidateList component
-
+- Table footer with how many candidates there are in this database
+- Using modal for delete and update confirmation
+- Changing alerts to modal
+- Change style to be more appealing (changed fonts, fixed layout)
 ## Future Improvements
 
 - Add more tests to the front-end
@@ -112,12 +115,9 @@ Create the candidates section by following these rules:
 - Add signin and signup functionality
 - Add authentication and authorization
 - Fix csrv without disabling it
-- Change style to be more appealing
-- Use another form of alert instead of alert(). It's not very user friendly (maybe toast could help)
 - Add DRY or some sort of Design Pattern to back-end (for now using MVC)
 - Add some sort of Design Pattern to front-end  (for now using Components)
 - Dropdown for actions instead of three buttons hardcoded
 - Add photo to candidate
-- Table footer with how many candidates there are in this database
 - Footer with links to github and linkedin
 - Add mailer to send email to candidate after creation

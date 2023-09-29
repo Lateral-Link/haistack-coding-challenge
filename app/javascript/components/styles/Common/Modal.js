@@ -25,8 +25,7 @@ export const ModalTitle = styled.h2`
 
 export const ModalButtons = styled.div`
   display: flex;
-  justify-content: space-between;
-
+  justify-content: ${props => props.hasCancel ? 'space-between' : 'center'};
 `;
 
 export const ModalButton = styled.button`

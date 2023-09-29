@@ -91,6 +91,7 @@ const Candidates = () => {
   const table = sortedCandidates.map((item) => {
     return (
       <Candidate
+        key={item.id} 
         name={item.name}
         email={item.email}
         date_of_birth={item.date_of_birth}

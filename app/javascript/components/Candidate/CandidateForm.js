@@ -118,6 +118,7 @@ const CandidateForm = (props) => {
           props.history.push("/");
         }
       } catch (error) {
+        closeModal();
         handleErrors(error);
       }
     } else {
@@ -139,15 +140,33 @@ const CandidateForm = (props) => {
         {isUpdating ? "Update Candidate" : "Create Candidate"}
       </FormTitle>
 
-      {userExistsAlert && <Alert>User already exists.</Alert>}
+      {userExistsAlert && (
+        <Modal
+          title="User already exists."
+          message="Please choose a different name and email."
+          onConfirm={() => setUserExistsAlert(false)}
+        />
+      )}
       {dateInvalidAlert && (
-        <Alert>Invalid date of birth. Please select a date in the past.</Alert>
+        <Modal
+          title="Invalid date of birth."
+          message="Please select a date in the past."
+          onConfirm={() => setDateInvalidAlert(false)}
+        />
       )}
       {underAgeInvalidAlert && (
-        <Alert>Candidate must be at least 16 years old.</Alert>
+        <Modal
+          title="Candidate must be at least 16 years old."
+          message="Please select a valid date of birth."
+          onConfirm={() => setUnderAgeInvalidAlert(false)}
+        />
       )}
       {maxAgeInvalidAlert && (
-        <Alert>Candidate must be at most 70 years old.</Alert>
+        <Modal
+          title="Candidate must be at most 70 years old."
+          message="Please select a valid date of birth."
+          onConfirm={() => setMaxAgeInvalidAlert(false)}
+        />
       )}
 
       <Form className="update-form" onSubmit={handleSubmit}>
