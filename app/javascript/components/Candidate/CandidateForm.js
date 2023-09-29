@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "../Common/Button";
+import Modal from "../Common/Modal";
 import {
   Container,
   Form,
@@ -83,6 +84,16 @@ const CandidateForm = (props) => {
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,24 +102,23 @@ const CandidateForm = (props) => {
       return;
     }
 
-    if (isUpdating) {
-      const confirmed = window.confirm(
-        "Are you sure you want to update this candidate?"
-      );
+    if (isUpdating && !isModalOpen) {
+      openModal();
+      return;
+    }
 
-      if (confirmed) {
-        try {
-          const response = await axios.put(
-            `/api/v1/candidates/${id}`,
-            candidateForm
-          );
+    if (isUpdating && isModalOpen) {
+      try {
+        const response = await axios.put(
+          `/api/v1/candidates/${id}`,
+          candidateForm
+        );
 
-          if (response.status === 200 || response.status === 201) {
-            props.history.push("/");
-          }
-        } catch (error) {
-          handleErrors(error);
+        if (response.status === 200 || response.status === 201) {
+          props.history.push("/");
         }
+      } catch (error) {
+        handleErrors(error);
       }
     } else {
       try {
@@ -171,7 +181,23 @@ const CandidateForm = (props) => {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button type="submit">{isUpdating ? "Update" : "Create"}</Button>
+        {isUpdating ? (
+          <>
+            {isModalOpen && (
+              <Modal
+                title="Confirm Update"
+                message="Are you sure you want to update this candidate?"
+                onCancel={closeModal}
+                onConfirm={handleSubmit}
+              />
+            )}
+            <Button type="button" onClick={handleSubmit}>
+              Update
+            </Button>
+          </>
+        ) : (
+          <Button type="submit">Create</Button>
+        )}
       </Form>
     </Container>
   );

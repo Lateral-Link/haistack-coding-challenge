@@ -49,22 +49,19 @@ const Candidates = () => {
   }, [currentPage, searchTerm, sort]);
 
   const handleDeleteCandidate = (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this candidate?"
-    );
+
     const url = `/api/v1/candidates/${id}`;
-    if (confirmed) {
       axios.delete(url).then((response) => {
         if (response.status === 204) {
           console.log("Candidate deleted successfully");
           setCandidates((prevCandidates) =>
             prevCandidates.filter((candidate) => candidate.id !== id)
           );
+          setCandidateCount(prevCount => prevCount - 1);
         } else {
           console.error("Error deleting candidate:", response.statusText);
         }
       });
-    }
   };
 
   const handleSort = (column) => {
