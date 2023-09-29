@@ -120,6 +120,6 @@ Create the candidates section by following these rules:
 - Add authentication and authorization
 - Fix csrv without disabling it
 - Add DRY or some sort of Design Pattern to back-end (for now using MVC)
-- Add some sort of Design Pattern to front-end  (for now using Components)
+- Add some sort of Design Pattern to front-end  (for now using Shared Components)
 - Add photo to candidate
 - Add mailer to send email to candidate after creation
