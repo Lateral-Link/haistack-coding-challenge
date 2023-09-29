@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   color: #fff;
-  background-color: #000;
+  background-color: #2ab7c9;
   border-radius: 8px;
   padding: 10px 18px;
   border: 1px solid #000;
@@ -12,6 +12,6 @@ export const StyledButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background-color: #333;
+    background-color: #1f8b99;
   }
 `;

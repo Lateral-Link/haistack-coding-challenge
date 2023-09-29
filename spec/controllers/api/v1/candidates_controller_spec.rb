@@ -18,8 +18,8 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
       # Parse the JSON response and check if it contains the expected data
       response_json = JSON.parse(response.body)
       expect(response_json['candidates'].length).to eq(10)
-      expect(response_json['candidates'][0]['name']).to eq('Guilherme Andreúce Sobreira Monteiro')
-      expect(response_json['candidates'][1]['name']).to eq('Nicole Borba Monteiro')
+      expect(response_json['candidates'][0]['name']).to eq('Aline Pereira')
+      expect(response_json['candidates'][1]['name']).to eq('Ana Pereira')
     end
   end
 

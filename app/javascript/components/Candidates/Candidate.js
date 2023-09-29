@@ -60,7 +60,7 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
           dropdownPosition="bottom"
           placeholder="Actions"
           inputProps={{ style: { textAlign: "center" } }}
-          style={{ marginLeft: "80px" }}
+          style={{ marginLeft: "70%" }}
         />
         {isModalOpen && (
           <Modal

@@ -6,6 +6,9 @@ export const TableHeaderRow = styled.div`
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
   font-weight: bold;
+  margin-right: 15%;
+  margin-left: 15%;
+  color: #333
 `;
 
 export const TableCell = styled.div`
@@ -14,7 +17,7 @@ export const TableCell = styled.div`
 
 export const ClickableText = styled.span`
   cursor: pointer;
-  color: #333;
+  color: #1f8b99;
 
   &:hover {
     text-decoration: underline;

@@ -10,13 +10,13 @@ export const PageNumber = styled.span`
   margin: 0 5px;
   font-size: 16px;
   padding: 5px 10px;
-  border: 1px solid blue; 
+  border: 1px solid #000; 
   background-color: white;
 
   &.active {
     font-weight: bold;
     color: white; 
-    background-color: blue;  
-    border: 1px solid blue; 
+    background-color: #1f8b99;  
+    border: 1px solid #000; 
   }
 `;

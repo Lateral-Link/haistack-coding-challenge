@@ -12,7 +12,8 @@ import {
   Subheader,
   CreateCandidateLink,
   SearchInput,
-  CandidateCount
+  CandidateCount,
+  Wrapper,
 } from "../styles/Candidates/Candidates";
 
 const Candidates = () => {
@@ -22,9 +23,7 @@ const Candidates = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [sort, setSort] = useState({ column: "name", order: "asc" });
-  const [url, setUrl] = useState(
-    `/api/v1/candidates.json`
-  );
+  const [url, setUrl] = useState(`/api/v1/candidates.json`);
   const [candidateCount, setCandidateCount] = useState(0);
 
   useEffect(() => {
@@ -49,19 +48,18 @@ const Candidates = () => {
   }, [currentPage, searchTerm, sort]);
 
   const handleDeleteCandidate = (id) => {
-
     const url = `/api/v1/candidates/${id}`;
-      axios.delete(url).then((response) => {
-        if (response.status === 204) {
-          console.log("Candidate deleted successfully");
-          setCandidates((prevCandidates) =>
-            prevCandidates.filter((candidate) => candidate.id !== id)
-          );
-          setCandidateCount(prevCount => prevCount - 1);
-        } else {
-          console.error("Error deleting candidate:", response.statusText);
-        }
-      });
+    axios.delete(url).then((response) => {
+      if (response.status === 204) {
+        console.log("Candidate deleted successfully");
+        setCandidates((prevCandidates) =>
+          prevCandidates.filter((candidate) => candidate.id !== id)
+        );
+        setCandidateCount((prevCount) => prevCount - 1);
+      } else {
+        console.error("Error deleting candidate:", response.statusText);
+      }
+    });
   };
 
   const handleSort = (column) => {
@@ -91,7 +89,7 @@ const Candidates = () => {
   const table = sortedCandidates.map((item) => {
     return (
       <Candidate
-        key={item.id} 
+        key={item.id}
         name={item.name}
         email={item.email}
         date_of_birth={item.date_of_birth}
@@ -107,15 +105,17 @@ const Candidates = () => {
         <h1>Candidates Manager</h1>
         <Subheader>Candidates List</Subheader>
       </Header>
-      <CreateCandidateLink to={`/candidate/new`}>
-        Create candidate
-      </CreateCandidateLink>
-      <SearchInput
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <Wrapper>
+        <SearchInput
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <CreateCandidateLink to={`/candidate/new`}>
+          Create candidate
+        </CreateCandidateLink>
+      </Wrapper>
       {searchResult === "not-found" ? (
         <p>Candidate not found</p>
       ) : (
@@ -144,9 +144,9 @@ const Candidates = () => {
                     Next
                   </PaginationButton>
                 </PaginationControl>
-                  <CandidateCount>
-                    Total Candidates: {candidateCount} 
-                  </CandidateCount>
+                <CandidateCount>
+                  Total Candidates: {candidateCount}
+                </CandidateCount>
               </PaginationContainer>
             </>
           )}

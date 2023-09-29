@@ -5,9 +5,11 @@ export const TableRow = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
+  margin-right: 15%;
+  margin-left: 15%;
 
   &:nth-child(even) {
-    background-color: #ededed;
+    background-color: #f0f9fa;
   }
 `;
 

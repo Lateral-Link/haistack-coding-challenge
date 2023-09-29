@@ -107,8 +107,10 @@ Create the candidates section by following these rules:
 - Table footer with how many candidates there are in this database
 - Using modal for delete and update confirmation
 - Changing alerts to modal
-- Change style to be more appealing (changed fonts, fixed layout)
+- Change style to be more appealing (changed fonts, fixed layout, fixed css, added some colors)
 - Dropdown for actions instead of three buttons hardcoded
+- Footer with links to github and linkedin
+  
   
 ## Future Improvements
 
@@ -120,5 +122,4 @@ Create the candidates section by following these rules:
 - Add DRY or some sort of Design Pattern to back-end (for now using MVC)
 - Add some sort of Design Pattern to front-end  (for now using Components)
 - Add photo to candidate
-- Footer with links to github and linkedin
 - Add mailer to send email to candidate after creation

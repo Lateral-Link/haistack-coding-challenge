@@ -66,14 +66,15 @@ export const Home = styled.div`
   overflow: hidden; 
 `;
 export const Header = styled.div`
-  padding: 4px 4px 2px 4px;
   h1 {
-    font-size: 42px;
+    color: #1f8b99;
+    font-size: 32px;
   }
 `;
 export const Subheader = styled.div`
+  margin-top: -20px;
   font-weight: 300;
-  font-size: 26px;
+  font-size: 18px;
 `;
 export const CreateCandidateLink = styled(Link)`
   display: block;
@@ -81,25 +82,33 @@ export const CreateCandidateLink = styled(Link)`
   font-size: 18px;
   color: #fff;
   text-decoration: none;
-  background-color: #000;
+  background-color: #2ab7c9;
   padding: 10px 20px;
   border-radius: 5px;
   border: 1px solid #000;
+  margin-right: 15%;
 
   &:hover {
-    background-color: #333;
+    background-color: #1f8b99;
   }
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const SearchInput = styled.input`
-  width: 98%;
+  width: 40%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 20px;
-  margin-top: 10px;
-  text-align: center;
+  margin-top: 40px;
+  margin-left: 180px;
+  text-align: left;
 
   &:focus {
     outline: none;
@@ -109,6 +118,6 @@ export const SearchInput = styled.input`
 
 export const CandidateCount = styled.div`
   position: relative;
-  left: 40%;
+  left: 30%;
   font-weight: bold;
 `;

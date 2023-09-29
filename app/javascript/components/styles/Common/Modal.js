@@ -34,8 +34,10 @@ export const ModalButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  background-color: #2ab7c9;
+  border: 1px solid #000;
 
   &:hover {
-    background-color: #ccc;
+    background-color: #1f8b99;
   }
 `;
