@@ -3,6 +3,7 @@ import { TableRow, TableCell } from "../styles/Candidates/Candidate";
 import { format } from "date-fns";
 import Modal from "../Common/Modal";
 import Dropdown from "react-dropdown-select";
+import { toast } from "react-toastify";
 
 const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
   const formattedDateOfBirth = format(
@@ -38,6 +39,7 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
   const confirmDelete = () => {
     onDelete(id);
     setIsModalOpen(false);
+    toast.success("Candidate deleted successfully!");
   };
 
   const handleCancel = () => {
@@ -53,7 +55,7 @@ const Candidate = ({ name, email, date_of_birth, id, onDelete }) => {
       </TableCell>
       <TableCell className="candidate-link">
         <Dropdown
-          key={key} // Adicionando uma chave única
+          key={key}
           options={options}
           onChange={(values) => handleChange(values)}
           dropdownGap={5}

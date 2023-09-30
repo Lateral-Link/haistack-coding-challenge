@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "../Common/Button";
 import Modal from "../Common/Modal";
+import { toast } from "react-toastify";
 import {
   Container,
   Form,
@@ -115,6 +116,8 @@ const CandidateForm = (props) => {
         );
 
         if (response.status === 200 || response.status === 201) {
+
+          toast.success("Candidate updated successfully!");
           props.history.push("/");
         }
       } catch (error) {
@@ -126,6 +129,8 @@ const CandidateForm = (props) => {
         const response = await axios.post(`/api/v1/candidates`, candidateForm);
 
         if (response.status === 201) {
+
+          toast.success("Candidate created successfully!");
           props.history.push("/");
         }
       } catch (error) {

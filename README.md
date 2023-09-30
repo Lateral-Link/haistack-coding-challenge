@@ -110,7 +110,7 @@ Create the candidates section by following these rules:
 - Change style to be more appealing (changed fonts, fixed layout, fixed css, added some colors)
 - Dropdown for actions instead of three buttons hardcoded
 - Footer with links to github and linkedin
-  
+- Add a success message when creating, updating and deleting a candidate.
   
 ## Future Improvements
 
