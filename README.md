@@ -79,7 +79,7 @@ Create the candidates section by following these rules:
 - Added tests for candidates controller
 - Added tests for candidates model
 - Rubocoped project
-- Add DRY or some sort of Design Pattern to back-end (for now using MVC)
+- Add DRY Design Pattern to back-end
 - Adjusted rspec tests
 
 ## Front-end Progress
@@ -121,6 +121,6 @@ Create the candidates section by following these rules:
 - Add signin and signup functionality
 - Add authentication and authorization
 - Fix csrv without disabling it
-- Add some sort of Design Pattern to front-end  (for now using Components)
+- Add some sort of Design Pattern to front-end  (for now using Shared Components)
 - Add photo to candidate
 - Add mailer to send email to candidate after creation
