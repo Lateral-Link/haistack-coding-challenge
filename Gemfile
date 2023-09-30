@@ -16,10 +16,13 @@ gem 'webpacker', '~> 5.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+# gem 'bcrypt', '~> 3.1.7'
 gem 'kaminari'
-gem 'rack-cors'
 gem 'uri'
+gem 'dry-matcher'
+gem 'dry-monads'
+gem 'dry-transaction'
+gem 'dry-validation'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

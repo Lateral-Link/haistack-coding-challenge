@@ -4,10 +4,11 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
   describe 'GET #index' do
     it 'returns a list of candidates' do
       # Create some candidate records in the test database
-      candidate1 = Candidate.create(name: 'Guilherme Andreúce Sobreira Monteiro',
-                                    email: 'guilherme.andreuce-2@gmail.com', date_of_birth: '1996-10-24')
-      candidate2 = Candidate.create(name: 'Nicole Borba Monteiro', email: 'nicole@teste.com',
-                                    date_of_birth: '1995-04-25')
+      # Change this if running locally
+      # candidate1 = Candidate.create(name: 'Guilherme Andreúce Sobreira Monteiro',
+      #                               email: 'guilherme.andreuce-2@gmail.com', date_of_birth: '1996-10-24')
+      # candidate2 = Candidate.create(name: 'Nicole Borba Monteiro', email: 'nicole@teste.com',
+      #                               date_of_birth: '1995-04-25')
 
       # Send a GET request to the index action
       get :index
@@ -73,7 +74,9 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
       candidate = Candidate.create(name: 'John Doe', email: 'john@example.com', date_of_birth: '1990-01-01')
 
       # Send a PUT request to update the candidate's name
-      put :update, params: { id: candidate.id, candidate: { name: 'Updated Name' } }
+      put :update,
+          params: { id: candidate.id,
+                    candidate: { name: 'Updated Name', email: 'john@example.com', date_of_birth: '1990-01-01' } }
 
       # Expect a successful response (HTTP status 200)
       expect(response).to have_http_status(:ok)

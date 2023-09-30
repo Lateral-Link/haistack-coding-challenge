@@ -5,61 +5,39 @@ module Api
       protect_from_forgery with: :null_session
 
       def index
-        term = params[:term]
-        sanitized_term = "%#{term}%"
-        order_column = params[:order_column]
-        order_direction = params[:order_direction] || 'asc'
-        candidates_size = Candidate.all.size
-        candidates = if term.present?
-                       Candidate.where('name LIKE :term OR email LIKE :term OR date_of_birth LIKE :term',
-                                       term: sanitized_term)
-                     else
-                       Candidate.all
-                     end
-
-        candidates = case order_column
-                     when 'name'
-                       candidates.order(name: order_direction)
-                     when 'email'
-                       candidates.order(email: order_direction)
-                     when 'date_of_birth'
-                       candidates.order(date_of_birth: order_direction)
-                     else
-                       candidates.order(name: 'asc')
-                     end
-
-        candidates = candidates.page(params[:page]).per(10)
-        total_pages = candidates.total_pages
-
-        render json: { candidates: candidates, total_pages: total_pages, candidates_size: candidates_size }
+        CandidatesServices::Index::UseCase.call(params) do |on|
+          on.failure { |result| render json: { message: result }, status: :bad_request }
+          on.success do |result|
+            render json: { candidates: result[0], total_pages: result[1], candidates_size: result[2] }, status: :ok
+          end
+        end
       end
 
       def show
-        render json: @candidate
+        CandidatesServices::Show::UseCase.call(@candidate) do |on|
+          on.failure { |result| render json: { message: result }, status: :bad_request }
+          on.success { |result| render json: result, status: :ok }
+        end
       end
 
       def create
-        candidate = Candidate.new(candidate_params)
-        if candidate.save
-          render json: candidate, status: :created
-        else
-          render json: { error: candidate.errors.full_messages }, status: :unprocessable_entity
+        CandidatesServices::Create::UseCase.call(candidate_params) do |on|
+          on.failure { |result| render json: { error: result }, status: :unprocessable_entity }
+          on.success { |result| render json: result, status: :created }
         end
       end
 
       def update
-        if @candidate.update(candidate_params)
-          render json: @candidate
-        else
-          render json: { error: @candidate.errors.full_messages }, status: :unprocessable_entity
+        CandidatesServices::Update::UseCase.call([candidate_params, @candidate]) do |on|
+          on.failure { |result| render json: { error: result }, status: :unprocessable_entity }
+          on.success { |result| render json: result, status: :ok }
         end
       end
 
       def destroy
-        if @candidate.destroy
-          head :no_content
-        else
-          render json: { error: @candidate.errors.full_messages }, status: :unprocessable_entity
+        CandidatesServices::Destroy::UseCase.call(@candidate) do |on|
+          on.failure { |result| render json: { error: result }, status: :unprocessable_entity }
+          on.success { head :no_content }
         end
       end
 
