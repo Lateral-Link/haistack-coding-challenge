@@ -3,6 +3,7 @@
     "module": "CommonJS",
     "target": "ES6",
     "baseUrl": ".",
+    "jsx": "react",
     "paths": {
       "@/*": ["app/javascript/src/*"]
     }

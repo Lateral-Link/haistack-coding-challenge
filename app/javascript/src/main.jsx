@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './main.css'
 
-const Main = props => (
+const Main = (props) => (
   <div className='main'>Hello {props.name}!</div>
 )
 
