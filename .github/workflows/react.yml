@@ -1,0 +1,24 @@
+name: "React CI"
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js 18
+      uses: actions/setup-node@v1
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Run the tests
+      run: yarn test
