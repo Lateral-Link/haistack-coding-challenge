@@ -8,9 +8,11 @@
 
     <%= stylesheet_pack_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'react_app' %>
   </head>
 
   <body>
+    <div id="root"></div>
     <%= yield %>
   </body>
 </html>
