@@ -10,7 +10,7 @@ module Candidates
     def past_birtdate
       return if birthdate.blank?
 
-      errors.add(:birthdate, :future_date) if birthdate > Date.current
+      errors.add(:birthdate, :future_date) if birthdate >= Date.current
     end
   end
 end
