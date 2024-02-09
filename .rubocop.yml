@@ -13,3 +13,6 @@ Style/Documentation:
 RSpec/EmptyExampleGroup:
   Exclude:
     - "**/*swagger_spec.rb"
+
+RSpec/NestedGroups:
+  Max: 4
