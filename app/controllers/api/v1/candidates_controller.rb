@@ -16,6 +16,13 @@ module Api
         }
       end
 
+      def show
+        candidate = Candidate.find(params[:id])
+        render json: candidate
+      rescue ActiveRecord::RecordNotFound
+        head :not_found
+      end
+
       def create
         candidate = Candidates::CreateUseCase.new(candidate_params).call
         return head :unprocessable_entity unless candidate

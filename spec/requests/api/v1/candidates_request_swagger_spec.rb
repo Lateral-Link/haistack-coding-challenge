@@ -66,4 +66,30 @@ describe 'Candidates API' do
       end
     end
   end
+
+  path '/api/v1/candidates/{id}' do
+    get 'Retrieves a candidate' do
+      tags 'Candidates'
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :integer
+
+      response '200', 'Candidate found' do
+        schema type:       :object,
+               properties: {
+                 id:        { type: :integer },
+                 name:      { type: :string },
+                 email:     { type: :string },
+                 birthdate: { type: :string, format: :date }
+               }
+
+        let(:id) { create(:candidate).id }
+        run_test!
+      end
+
+      response '404', 'Candidate not found' do
+        let(:id) { 'invalid' }
+        run_test!
+      end
+    end
+  end
 end
