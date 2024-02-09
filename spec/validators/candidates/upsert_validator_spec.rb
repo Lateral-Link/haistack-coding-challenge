@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Candidates::CreateValidator do
+RSpec.describe Candidates::UpsertValidator do
   describe '.valid?' do
     subject { described_class.valid?(candidate) }
 
@@ -24,6 +24,12 @@ RSpec.describe Candidates::CreateValidator do
 
     context 'when the email is invalid' do
       before { candidate.email = 'my.email.at.example.com' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the email is already taken' do
+      before { create(:candidate, email: candidate.email) }
 
       it { is_expected.to be false }
     end

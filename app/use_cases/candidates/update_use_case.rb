@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
 module Candidates
-  class CreateUseCase
-    def initialize(params)
+  class UpdateUseCase
+    def initialize(candidate_id, params)
+      @candidate_id = candidate_id
       @params = params
     end
 
     def call
       return unless valid?
 
-      candidate.save!
+      candidate.update!(candidate_params)
     end
 
     private
 
     def candidate
-      @candidate ||= Candidate.new(candidate_params)
+      @candidate ||= Candidate.find(@candidate_id).tap { |c| c.assign_attributes(candidate_params) }
     end
 
     def candidate_params

@@ -11,7 +11,7 @@ RSpec.describe Candidates::CreateUseCase do
 
     context 'when the candidate is valid' do
       before do
-        allow(Candidates::CreateValidator).to receive(:valid?).and_return(true)
+        allow(Candidates::UpsertValidator).to receive(:valid?).and_return(true)
       end
 
       it 'creates a candidate' do
@@ -26,7 +26,7 @@ RSpec.describe Candidates::CreateUseCase do
 
     context 'when the candidate is invalid' do
       before do
-        allow(Candidates::CreateValidator).to receive(:valid?).and_return(false)
+        allow(Candidates::UpsertValidator).to receive(:valid?).and_return(false)
       end
 
       it 'does not create a candidate' do
