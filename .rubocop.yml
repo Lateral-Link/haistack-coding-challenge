@@ -9,3 +9,7 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - "**/*swagger_spec.rb"

@@ -1,0 +1,41 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/candidates":
+    post:
+      summary: Creates a candidate
+      tags:
+      - Candidates
+      parameters: []
+      responses:
+        '201':
+          description: Candidate created
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Andre
+                email:
+                  type: string
+                  format: email
+                  example: andre@haistack.ai
+                birthdate:
+                  type: string
+                  format: date
+                  example: '1992-04-27'
+              required:
+              - name
+              - email
+              - birthdate
+servers:
+- url: http://localhost:3000
+  description: The local server
