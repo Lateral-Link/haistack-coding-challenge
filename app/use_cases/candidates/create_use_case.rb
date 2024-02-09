@@ -20,8 +20,8 @@ module Candidates
 
     def candidate_params
       {
-        name: @params[:name],
-        email: @params[:email],
+        name:      @params[:name],
+        email:     @params[:email],
         birthdate: @params[:birthdate]
       }
     end
