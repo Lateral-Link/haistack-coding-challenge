@@ -12,6 +12,7 @@ services:
 
   app:
     <<: *app
+    container_name: app
     depends_on:
       - db
       - webpacker
