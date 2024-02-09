@@ -168,4 +168,23 @@ RSpec.describe 'Api::V1::Candidates' do
       end
     end
   end
+
+  describe 'DELETE /:id' do
+    subject(:delete_candidate) { delete "/api/v1/candidates/#{candidate_id}" }
+
+    let(:candidate_id) { candidate.id }
+    let(:candidate) { create(:candidate) }
+
+    context 'with existing candidate' do
+      it 'returns http ok' do
+        delete_candidate
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'deletes the candidate' do
+        delete_candidate
+        expect(Candidate.find_by(id: candidate)).to be_nil
+      end
+    end
+  end
 end

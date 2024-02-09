@@ -91,5 +91,55 @@ describe 'Candidates API' do
         run_test!
       end
     end
+
+    put 'Updates a candidate' do
+      tags 'Candidates'
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :integer
+      parameter name: :candidate, in: :body, schema: {
+        type:       :object,
+        properties: {
+          name:      { type: :string, example: 'Andre' },
+          email:     { type: :string, format: :email, example: 'andre@haistack.ai' },
+          birthdate: { type: :string, format: :date, example: '1992-04-27' }
+        }
+      }
+
+      response '200', 'Candidate updated' do
+        let(:id) { create(:candidate).id }
+        let(:candidate) { { name: 'foo', email: 'andre@haistack.ai', birthdate: '1990-01-01' } }
+
+        run_test!
+      end
+
+      response '422', 'Invalid request' do
+        let(:id) { create(:candidate).id }
+        let(:candidate) { { email: 'foo' } }
+
+        run_test!
+      end
+
+      response '404', 'Candidate not found' do
+        let(:id) { 'invalid' }
+        let(:candidate) { { name: 'foo', email: 'andre@haistack.ai, birthdate: 1990-01-01' } }
+
+        run_test!
+      end
+    end
+
+    delete 'Deletes a candidate' do
+      tags 'Candidates'
+      parameter name: :id, in: :path, type: :integer
+
+      response '200', 'Candidate deleted' do
+        let(:id) { create(:candidate).id }
+        run_test!
+      end
+
+      response '404', 'Candidate not found' do
+        let(:id) { 'invalid' }
+        run_test!
+      end
+    end
   end
 end

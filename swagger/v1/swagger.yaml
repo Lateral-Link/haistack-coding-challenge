@@ -112,6 +112,55 @@ paths:
                     format: date
         '404':
           description: Candidate not found
+    put:
+      summary: Updates a candidate
+      tags:
+      - Candidates
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Candidate updated
+        '422':
+          description: Invalid request
+        '404':
+          description: Candidate not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Andre
+                email:
+                  type: string
+                  format: email
+                  example: andre@haistack.ai
+                birthdate:
+                  type: string
+                  format: date
+                  example: '1992-04-27'
+    delete:
+      summary: Deletes a candidate
+      tags:
+      - Candidates
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Candidate deleted
+        '404':
+          description: Candidate not found
 servers:
 - url: http://localhost:3000
   description: The local server
