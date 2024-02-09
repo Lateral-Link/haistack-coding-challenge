@@ -10,6 +10,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'mysql2', '~> 0.5'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
+gem 'rswag'
 gem 'webpacker', '~> 5.0'
 
 group :development, :test do
