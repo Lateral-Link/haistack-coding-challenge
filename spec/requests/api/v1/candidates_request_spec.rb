@@ -1,6 +1,54 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Api::V1::Candidates' do
+  describe 'GET /' do
+    subject(:get_candidates) { get '/api/v1/candidates', params: params }
+
+    let(:params) { {} }
+
+    it 'returns http success' do
+      get_candidates
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'returns a list of candidates' do
+      candidates = create_list(:candidate, 2)
+      get_candidates
+      expect(response.parsed_body).to eq({
+        candidates: [{
+          id:        candidates.first.id,
+          name:      candidates.first.name,
+          email:     candidates.first.email,
+          birthdate: candidates.first.birthdate.to_s
+        }, {
+          id:        candidates.second.id,
+          name:      candidates.second.name,
+          email:     candidates.second.email,
+          birthdate: candidates.second.birthdate.to_s
+        }],
+        meta:       { page: 1, per_page: 20, total_pages: 1, total_count: 2 }
+      }.deep_stringify_keys)
+    end
+
+    context 'with pagination' do
+      let(:params) { { page: 2, per_page: 2 } }
+
+      it 'returns only paginated elements' do
+        candidates = create_list(:candidate, 3)
+        get_candidates
+        expect(response.parsed_body).to eq({
+          candidates: [{
+            id:        candidates.third.id,
+            name:      candidates.third.name,
+            email:     candidates.third.email,
+            birthdate: candidates.third.birthdate.to_s
+          }],
+          meta:       { page: 2, per_page: 2, total_pages: 2, total_count: 3 }
+        }.deep_stringify_keys)
+      end
+    end
+  end
+
   describe 'POST /create' do
     subject(:create_candidate) { post '/api/v1/candidates', params: params }
 
