@@ -39,5 +39,11 @@ RSpec.describe Candidates::CreateValidator do
 
       it { is_expected.to be false }
     end
+
+    context 'when the birthdate is today' do
+      before { candidate.birthdate = Date.current }
+
+      it { is_expected.to be false }
+    end
   end
 end
