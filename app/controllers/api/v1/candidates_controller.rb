@@ -35,6 +35,13 @@ module Api
         head :ok
       end
 
+      def destroy
+        candidate = Candidate.find(params[:id])
+        candidate.destroy
+
+        head :ok
+      end
+
       private
 
       def candidate_params
