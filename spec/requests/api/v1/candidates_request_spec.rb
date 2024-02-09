@@ -82,6 +82,59 @@ RSpec.describe 'Api::V1::Candidates' do
     end
   end
 
+  describe 'PUT /:id' do
+    subject(:update_candidate) { put "/api/v1/candidates/#{candidate_id}", params: params }
+
+    let(:candidate_id) { candidate.id }
+    let(:params) { { candidate: { name: 'John Doe', email: 'john@doe.com', birthdate: 20.years.ago } } }
+    let(:candidate) { create(:candidate) }
+
+    context 'with valid params' do
+      it 'returns http ok' do
+        update_candidate
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'updates the candidate' do
+        update_candidate
+        expect(candidate.reload).to have_attributes(
+          id:        candidate.id,
+          name:      'John Doe',
+          email:     'john@doe.com',
+          birthdate: 20.years.ago.to_date
+        )
+      end
+    end
+
+    context 'with invalid params' do
+      let(:params) { { candidate: { email: 'invalid-email' } } }
+
+      it 'returns http unprocessable entity' do
+        update_candidate
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not update the candidate' do
+        update_candidate
+        expect(candidate.reload).to have_attributes(
+          id:        candidate.id,
+          name:      candidate.name,
+          email:     candidate.email,
+          birthdate: candidate.birthdate
+        )
+      end
+    end
+
+    context 'with non-existing candidate' do
+      let(:candidate_id) { 'invalid-id' }
+
+      it 'returns http not found' do
+        update_candidate
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'POST /create' do
     subject(:create_candidate) { post '/api/v1/candidates', params: params }
 

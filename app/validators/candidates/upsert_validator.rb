@@ -16,6 +16,7 @@ module Candidates
 
     def unique_email
       return if email.blank?
+      return unless email_changed?
 
       errors.add(:email, :taken) if Candidate.exists?(email: email)
     end
