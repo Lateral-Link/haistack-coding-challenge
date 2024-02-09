@@ -27,7 +27,7 @@ module Candidates
     end
 
     def valid?
-      Candidates::CreateValidator.valid?(candidate)
+      Candidates::UpsertValidator.valid?(candidate)
     end
   end
 end
