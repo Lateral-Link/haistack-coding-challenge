@@ -5,6 +5,52 @@ info:
   version: v1
 paths:
   "/api/v1/candidates":
+    get:
+      summary: Retrieves a list of candidates
+      tags:
+      - Candidates
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Candidates list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  candidates:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        birthdate:
+                          type: string
+                          format: date
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_count:
+                        type: integer
     post:
       summary: Creates a candidate
       tags:
