@@ -49,6 +49,39 @@ RSpec.describe 'Api::V1::Candidates' do
     end
   end
 
+  describe 'GET /:id' do
+    subject(:get_candidate) { get "/api/v1/candidates/#{candidate_id}" }
+
+    let(:candidate_id) { candidate.id }
+    let(:candidate) { create(:candidate) }
+
+    context 'with existing candidate' do
+      it 'returns http success' do
+        get_candidate
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns the candidate' do
+        get_candidate
+        expect(response.parsed_body).to eq({
+          id:        candidate.id,
+          name:      candidate.name,
+          email:     candidate.email,
+          birthdate: candidate.birthdate.to_s
+        }.deep_stringify_keys)
+      end
+    end
+
+    context 'with non-existing candidate' do
+      let(:candidate_id) { 'invalid-id' }
+
+      it 'returns http not found' do
+        get_candidate
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe 'POST /create' do
     subject(:create_candidate) { post '/api/v1/candidates', params: params }
 
