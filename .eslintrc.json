@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": false
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    // Additional rules or overrides can be added here
+  }
+}
