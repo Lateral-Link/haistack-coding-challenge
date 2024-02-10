@@ -60,13 +60,20 @@ describe('request functions', () => {
   describe('post', () => {
     it('should make a POST request with given URL, method, and options', async () => {
       const url = 'https://example.com'
-      const options = { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) }
+      const options = {
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'value' }),
+      }
       const responseData = { message: 'POST response data' }
       fetch.mockResolvedValue(mockResponse(201, responseData))
 
       const result = await post(url, options)
 
-      expect(fetch).toHaveBeenCalledWith(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) })
+      expect(fetch).toHaveBeenCalledWith(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'value' }),
+      })
       expect(result).toEqual({ data: responseData, status: 201 })
     })
   })
@@ -80,7 +87,11 @@ describe('request functions', () => {
 
       const result = await put(url, options)
 
-      expect(fetch).toHaveBeenCalledWith(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) })
+      expect(fetch).toHaveBeenCalledWith(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'value' }),
+      })
       expect(result).toEqual({ data: responseData, status: 200 })
     })
   })
@@ -108,7 +119,11 @@ describe('request functions', () => {
 
       const result = await patch(url, options)
 
-      expect(fetch).toHaveBeenCalledWith(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) })
+      expect(fetch).toHaveBeenCalledWith(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: 'value' }),
+      })
       expect(result).toEqual({ data: responseData, status: 200 })
     })
   })
