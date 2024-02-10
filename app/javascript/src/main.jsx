@@ -7,11 +7,11 @@ const Main = (props) => (
 )
 
 Main.defaultProps = {
-  name: 'World'
+  name: 'World',
 }
 
 Main.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
 }
 
 export default Main
