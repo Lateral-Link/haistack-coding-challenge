@@ -1,8 +1,16 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import createCandidate from '@/models/candidate.js'
 import dayjs from 'dayjs'
 
 describe('createCandidate function', () => {
+  beforeEach(() => {
+    vi.spyOn(Date, 'now').mockImplementation(() => new Date('2022-01-01T00:00:00Z').getTime())
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should return the correct values for it\'s attributes', () => {
     const candidateData = {
       id: 1,
