@@ -13,3 +13,13 @@ export const fetchCandidates = async () => {
     meta: response.data?.meta,
   }
 }
+
+export const getCandidate = async (id) => {
+  const response = await get(`${BASE_URL}/api/v1/candidates/${id}`)
+  const candidate = createCandidate(response.data)
+
+  return {
+    candidate,
+    status: response.status,
+  }
+}
