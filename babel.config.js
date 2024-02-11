@@ -23,7 +23,8 @@ module.exports = function(api) {
           targets: {
             node: 'current'
           },
-          modules: 'commonjs'
+          modules: 'commonjs',
+          include: [ 'proposal-optional-chaining' ]
         },
         '@babel/preset-react'
       ],
