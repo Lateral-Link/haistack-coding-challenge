@@ -23,6 +23,7 @@
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "never"],
     "max-len": ["error", { "ignoreComments": true, "code": 120 }],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/display-name": "off"
   }
 }
