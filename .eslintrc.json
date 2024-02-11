@@ -7,10 +7,10 @@
   "env": {
     "browser": true,
     "es6": true,
-    "node": false
+    "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "settings": {
@@ -22,6 +22,7 @@
     "react/react-in-jsx-scope": "off",
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "never"],
-    "max-len": ["error", { "ignoreComments": true }]
+    "max-len": ["error", { "ignoreComments": true, "code": 120 }],
+    "react/prop-types": "off"
   }
 }
