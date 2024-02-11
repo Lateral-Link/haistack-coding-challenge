@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { Home, Candidates } from '@/views/index.js'
+import { Home, Candidate } from '@/views/index.js'
 
 export const router = createBrowserRouter([
   {
@@ -8,7 +8,12 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '/candidates',
-    element: <Candidates />,
+    path: 'candidates',
+    children: [
+      {
+        path: ':id',
+        element: <Candidate />,
+      },
+    ],
   },
 ])
