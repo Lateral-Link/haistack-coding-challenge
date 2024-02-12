@@ -1,11 +1,15 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { get, post, put } from '@/lib/request.js'
-import { fetchCandidates, getCandidate, createCandidate, updateCandidate } from '@/repositories/candidates.js'
+import { get, post, put, del } from '@/lib/request.js'
+import {
+  fetchCandidates, getCandidate, createCandidate,
+  updateCandidate, deleteCandidate,
+} from '@/repositories/candidates.js'
 
 vi.mock('@/lib/request.js', () => ({
   get: vi.fn(),
   post: vi.fn(),
   put: vi.fn(),
+  del: vi.fn(),
 }))
 
 vi.mock('@/models/candidate.js', () => ({
@@ -154,6 +158,29 @@ describe('candidates repository', () => {
         put.mockResolvedValue(response)
 
         const result = await updateCandidate(1, { name: 'John Doe' })
+
+        expect(result.status).toBe(500)
+      })
+    })
+  })
+
+  describe('deleteCandidate', () => {
+    it('returns status', async () => {
+      const response = { status: 200 }
+      del.mockResolvedValue(response)
+
+      const result = await deleteCandidate(1)
+
+      expect(result.status).toBe(200)
+      expect(del).toHaveBeenCalledWith('http://localhost:3000/api/v1/candidates/1')
+    })
+
+    describe('when response is not successful', () => {
+      it('returns status', async () => {
+        const response = { status: 500 }
+        del.mockResolvedValue(response)
+
+        const result = await deleteCandidate(1)
 
         expect(result.status).toBe(500)
       })

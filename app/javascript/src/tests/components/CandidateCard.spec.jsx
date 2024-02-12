@@ -12,6 +12,7 @@ vi.mock('antd', () => ({
   Avatar: ({ children }) => <div>{children}</div>,
   Button: ({ children }) => <div>{children}</div>,
   Flex: ({ children }) => <div>{children}</div>,
+  Popconfirm: ({ children }) => <div>{children}</div>,
   Typography: {
     Title: ({ children }) => <div>{children}</div>,
   },
