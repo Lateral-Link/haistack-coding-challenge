@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { get } from '@/lib/request.js'
 import { fetchCandidates, getCandidate } from '@/repositories/candidates.js'
 
@@ -6,9 +6,16 @@ vi.mock('@/lib/request.js', () => ({
   get: vi.fn(),
 }))
 
-vi.mock('@/models/candidate.js', () => ({ default: () => 'createCandidate' }))
+vi.mock('@/models/candidate.js', () => ({
+  default: () => 'createCandidate',
+  candidateMeta: () => 'candidateMeta',
+}))
 
 describe('candidates repository', () => {
+  afterEach(() => {
+    get.mockClear()
+  })
+
   describe('fetchCandidates', () => {
     it('returns candidates and status', async () => {
       const candidates = [{ id: 1, name: 'John Doe' }]
@@ -21,6 +28,16 @@ describe('candidates repository', () => {
       expect(result.status).toBe(200)
     })
 
+    it('calls get with correct params', async () => {
+      const candidates = [{ id: 1, name: 'John Doe' }]
+      const response = { data: { candidates }, status: 200 }
+      get.mockResolvedValue(response)
+
+      await fetchCandidates({ page: 2 })
+
+      expect(get).toHaveBeenCalledWith('http://localhost:3000/api/v1/candidates?page=2&per_page=10')
+    })
+
     describe('when response has meta', () => {
       it('returns meta', async () => {
         const candidates = [{ id: 1, name: 'John Doe' }]
@@ -30,7 +47,7 @@ describe('candidates repository', () => {
 
         const result = await fetchCandidates()
 
-        expect(result.meta).toEqual(meta)
+        expect(result.meta).toEqual('candidateMeta')
       })
     })
 
