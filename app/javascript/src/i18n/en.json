@@ -5,5 +5,22 @@
   },
   "candidates": {
     "title": "Candidates"
+  },
+  "candidateNew": {
+    "title": "New Candidate",
+    "success": "Candidate created successfully",
+    "error": "Error creating candidate, try checking the email for duplicates"
+  },
+  "candidateForm": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter candidate name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "email@example.com",
+    "birthdateLabel": "Birthdate",
+    "submit": "Submit"
+  },
+  "navBar": {
+    "allCandidates": "All Candidates",
+    "newCandidate": "New Candidate"
   }
 }
