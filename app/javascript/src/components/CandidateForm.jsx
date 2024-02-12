@@ -1,6 +1,7 @@
 import React from 'react'
 import { Input, DatePicker, Typography } from 'antd'
 import { t } from 'i18next'
+import dayjs from 'dayjs'
 
 const { Title } = Typography
 
@@ -13,6 +14,7 @@ const CandidateForm = ({ candidate, setCandidate }) => {
           placeholder={t('candidateForm.namePlaceholder')}
           id="name"
           status={candidate.errors?.name ? 'error' : 'success'}
+          value={candidate.name}
           onChange={({ target }) => setCandidate({ ...candidate, name: target.value })}
         />
       </label>
@@ -24,6 +26,7 @@ const CandidateForm = ({ candidate, setCandidate }) => {
           id="email"
           type="email"
           status={candidate.errors?.email ? 'error' : 'success'}
+          value={candidate.email}
           onChange={({ target }) => setCandidate({ ...candidate, email: target.value })}
         />
       </label>
@@ -31,8 +34,11 @@ const CandidateForm = ({ candidate, setCandidate }) => {
       <label htmlFor="birthdate">
         <Title level={4}>{t('candidateForm.birthdateLabel')}</Title>
         <DatePicker
+          key={candidate.birthdate?.toString()}
           style={{ width: '100%' }}
           status={candidate.errors?.birthdate ? 'error' : 'success'}
+          defaultValue={candidate.birthdate}
+          maxDate={dayjs().subtract(1, 'day')}
           onChange={(date) => setCandidate({ ...candidate, birthdate: date })}
         />
       </label>

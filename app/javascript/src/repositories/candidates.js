@@ -1,4 +1,4 @@
-import { get, post } from '@/lib/request.js'
+import { get, post, put } from '@/lib/request.js'
 import createCandidateModel, { candidateMeta } from '@/models/candidate.js'
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000'
@@ -28,6 +28,14 @@ export const getCandidate = async (id) => {
 
 export const createCandidate = async (candidate) => {
   const response = await post(`${API_BASE_URL}/api/v1/candidates`, { body: candidate })
+
+  return {
+    status: response.status,
+  }
+}
+
+export const updateCandidate = async (id, candidate) => {
+  const response = await put(`${API_BASE_URL}/api/v1/candidates/${id}`, { body: candidate })
 
   return {
     status: response.status,

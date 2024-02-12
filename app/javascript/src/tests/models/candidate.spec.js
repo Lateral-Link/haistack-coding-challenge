@@ -25,6 +25,12 @@ describe('createCandidate function', () => {
     expect(candidate.name).toBe(candidateData.name)
     expect(candidate.email).toBe(candidateData.email)
     expect(candidate.birthdate).toEqual(dayjs(candidateData.birthdate))
+    expect(candidate.toForm()).toEqual({
+      name: candidateData.name,
+      email: candidateData.email,
+      birthdate: dayjs(candidateData.birthdate),
+      errors: {},
+    })
   })
 
   describe('when the candidate is missing all attributes', () => {

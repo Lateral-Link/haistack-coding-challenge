@@ -6,10 +6,11 @@
   "candidates": {
     "title": "Candidates"
   },
-  "candidateNew": {
+  "candidateUpsert": {
     "title": "New Candidate",
-    "success": "Candidate created successfully",
-    "error": "Error creating candidate, try checking the email for duplicates"
+    "createSuccess": "Candidate created successfully",
+    "updateSuccess": "Candidate updated successfully",
+    "error": "Error! Try checking the email for duplicates"
   },
   "candidateForm": {
     "nameLabel": "Name",

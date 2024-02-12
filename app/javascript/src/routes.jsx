@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes as ReactRoutes, Route } from 'react-router-dom'
-import { Home, Candidate, Candidates, CandidateNew } from '@/views/index.js'
+import { Home, Candidate, Candidates, CandidateUpsert } from '@/views/index.js'
 
 const Routes = ({ children }) => {
   return (
@@ -10,8 +10,9 @@ const Routes = ({ children }) => {
       <ReactRoutes>
         <Route path="/" element={<Home />} />
         <Route path="candidates" element={<Candidates />} />
-        <Route path="candidates/new" element={<CandidateNew />} />
+        <Route path="candidates/new" element={<CandidateUpsert />} />
         <Route path="candidates/:id" element={<Candidate />} />
+        <Route path="candidates/:id/edit" element={<CandidateUpsert />} />
       </ReactRoutes>
     </BrowserRouter>
   )

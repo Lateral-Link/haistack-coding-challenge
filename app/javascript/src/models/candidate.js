@@ -5,6 +5,13 @@ export default (candidate) => ({
   name: candidate.name,
   email: candidate.email,
   birthdate: dayjs(candidate.birthdate),
+
+  toForm: () => ({
+    name: candidate.name,
+    email: candidate.email,
+    birthdate: dayjs(candidate.birthdate),
+    errors: {},
+  }),
 })
 
 export const candidateMeta = (meta) => ({
