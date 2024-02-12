@@ -1,7 +1,9 @@
 {
   "welcomeToHaistack": "Welcome to Haistack",
-  "candidates": "Candidates",
   "candidate": {
     "candidateDetails": "Candidate Details"
+  },
+  "candidates": {
+    "title": "Candidates"
   }
 }
