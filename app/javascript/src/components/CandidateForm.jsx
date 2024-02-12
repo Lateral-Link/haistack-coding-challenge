@@ -12,6 +12,7 @@ const CandidateForm = ({ candidate, setCandidate }) => {
         <Input
           placeholder={t('candidateForm.namePlaceholder')}
           id="name"
+          status={candidate.errors?.name ? 'error' : 'success'}
           onChange={({ target }) => setCandidate({ ...candidate, name: target.value })}
         />
       </label>
@@ -22,6 +23,7 @@ const CandidateForm = ({ candidate, setCandidate }) => {
           placeholder={t('candidateForm.emailPlaceholder')}
           id="email"
           type="email"
+          status={candidate.errors?.email ? 'error' : 'success'}
           onChange={({ target }) => setCandidate({ ...candidate, email: target.value })}
         />
       </label>
@@ -30,6 +32,7 @@ const CandidateForm = ({ candidate, setCandidate }) => {
         <Title level={4}>{t('candidateForm.birthdateLabel')}</Title>
         <DatePicker
           style={{ width: '100%' }}
+          status={candidate.errors?.birthdate ? 'error' : 'success'}
           onChange={(date) => setCandidate({ ...candidate, birthdate: date })}
         />
       </label>

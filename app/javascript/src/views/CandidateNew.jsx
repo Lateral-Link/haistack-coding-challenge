@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { getCandidate } from '@/repositories/candidates.js'
+import React, { useState } from 'react'
 import CandidateForm from '@/components/CandidateForm.jsx'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 import { Card, Typography, Button } from 'antd'
 import { successToast, errorToast } from '@/lib/toast.js'
 import { createCandidate } from '@/repositories/candidates.js'
 const { Title } = Typography
 
 const Candidate = () => {
-  const [candidate, setCandidate] = useState({ name: '', email: '', birthdate: '' })
-  const [loading, setLoading] = useState(true)
+  const [candidate, setCandidate] = useState({ name: '', email: '', birthdate: '', errors: {} })
   const { t } = useTranslation()
-  const { id } = useParams()
 
   const handleSubmit = async () => {
+    if (!isValid()) return
+
     const response = await createCandidate(candidate)
 
     if (response.status !== 201) {
@@ -22,31 +20,40 @@ const Candidate = () => {
       return
     }
 
-    setCandidate({ name: '', email: '', birthdate: '' })
+    setCandidate({ name: '', email: '', birthdate: '', errors: {} })
     successToast(t('candidateNew.success'))
   }
 
-  useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
-        const response = await getCandidate(id)
+  const isValid = () => {
+    const newErrors = {}
 
-        setCandidate(response.candidate)
-        setLoading(false)
-      }
-
-      fetchData()
-    } else {
-      setLoading(false)
+    if (!candidate.name) {
+      newErrors.name = t('candidateForm.errors.name')
     }
-  }, [])
+
+    if (!candidate.email) {
+      newErrors.email = t('candidateForm.errors.email')
+    }
+
+    if (!candidate.birthdate) {
+      newErrors.birthdate = t('candidateForm.errors.birthdate')
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      return true
+    }
+
+    setCandidate({ ...candidate, errors: newErrors })
+    return false
+  }
+
   return (
     <div style={{ padding: '20px' }}>
       <Title>
         {t('candidateNew.title')}
       </Title>
-      <Card loading={loading} style={{ height: '100%', maxWidth: '600px' }}>
-        <CandidateForm candidate={candidate} setCandidate={setCandidate} loading={loading} />
+      <Card style={{ height: '100%', maxWidth: '600px' }}>
+        <CandidateForm candidate={candidate} setCandidate={setCandidate} />
         <Button type='primary' onClick={handleSubmit} style={{ marginTop: '20px' }} >{t('generic.submit')}</Button>
       </Card>
     </div>

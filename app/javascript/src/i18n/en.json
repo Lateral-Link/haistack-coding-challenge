@@ -19,6 +19,9 @@
     "birthdateLabel": "Birthdate",
     "submit": "Submit"
   },
+  "generic": {
+    "submit": "Submit"
+  },
   "navBar": {
     "allCandidates": "All Candidates",
     "newCandidate": "New Candidate"
