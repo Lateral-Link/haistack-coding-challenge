@@ -25,21 +25,21 @@ module Api
         candidate = Candidates::CreateUseCase.new(candidate_params).call
         return head :unprocessable_entity unless candidate
 
-        head :created
+        render json: candidate, status: :created
       end
 
       def update
         candidate = Candidates::UpdateUseCase.new(params[:id], candidate_params).call
         return head :unprocessable_entity unless candidate
 
-        head :ok
+        render json: candidate, status: :ok
       end
 
       def destroy
         candidate = Candidate.find(params[:id])
         candidate.destroy
 
-        head :ok
+        render json: {}, head: :ok
       end
 
       private
