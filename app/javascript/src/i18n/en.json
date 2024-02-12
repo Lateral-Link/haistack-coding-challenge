@@ -1,5 +1,4 @@
 {
-  "welcomeToHaistack": "Welcome to Haistack",
   "candidate": {
     "candidateDetails": "Candidate Details"
   },
@@ -9,7 +8,7 @@
     "confirmDeleteDescription": "Are you sure you want to delete this candidate?"
   },
   "candidateUpsert": {
-    "title": "New Candidate",
+    "title": "Candidate Form",
     "createSuccess": "Candidate created successfully",
     "updateSuccess": "Candidate updated successfully",
     "error": "Error! Try checking the email for duplicates"
