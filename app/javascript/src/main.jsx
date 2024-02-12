@@ -1,14 +1,17 @@
 import React from 'react'
-import { RouterProvider } from 'react-router-dom'
 import i18n from '@/i18n/config.js'
 import { I18nextProvider } from 'react-i18next'
-import { router } from '@/routes.js'
+import Routes from '@/routes.jsx'
+import NavBar from '@/components/NavBar.jsx'
 
 import './main.css'
+import 'toastify-js/src/toastify.css'
 
 const Main = () => {
   return <I18nextProvider i18n={i18n}>
-    <RouterProvider router={router} />
+    <Routes>
+      <NavBar />
+    </Routes>
   </I18nextProvider>
 }
 
