@@ -46,3 +46,8 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* AntD Overrides */
+.ant-card-body {
+	height: 100%;
+}
