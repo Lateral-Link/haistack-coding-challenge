@@ -51,6 +51,7 @@ const Candidates = () => {
           pageSize={meta.perPage}
           onChange={(page) => reloadCandidates(page)}
           style={{ margin: 'auto' }}
+          showSizeChanger={false}
           data-testid='pagination'
         />
       </Skeleton>
