@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { get } from '@/lib/request.js'
-import { fetchCandidates, getCandidate } from '@/repositories/candidates.js'
+import { get, post } from '@/lib/request.js'
+import { fetchCandidates, getCandidate, createCandidate } from '@/repositories/candidates.js'
 
 vi.mock('@/lib/request.js', () => ({
   get: vi.fn(),
+  post: vi.fn(),
 }))
 
 vi.mock('@/models/candidate.js', () => ({
@@ -108,6 +109,29 @@ describe('candidates repository', () => {
 
         expect(result.candidate).toEqual('createCandidate')
         expect(result.status).toBe(404)
+      })
+    })
+  })
+
+  describe('createCandidate', () => {
+    it('returns status', async () => {
+      const response = { status: 201 }
+      post.mockResolvedValue(response)
+
+      const result = await createCandidate({ name: 'John Doe' })
+
+      expect(result.status).toBe(201)
+      expect(post).toHaveBeenCalledWith('http://localhost:3000/api/v1/candidates', { body: { name: 'John Doe' } })
+    })
+
+    describe('when response is not successful', () => {
+      it('returns status', async () => {
+        const response = { status: 500 }
+        post.mockResolvedValue(response)
+
+        const result = await createCandidate({ name: 'John Doe' })
+
+        expect(result.status).toBe(500)
       })
     })
   })

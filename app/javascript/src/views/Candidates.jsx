@@ -13,6 +13,8 @@ const Candidates = () => {
   const { t } = useTranslation()
 
   const reloadCandidates = async (page = 1) => {
+    setLoading(true)
+
     const response = await fetchCandidates({ page })
 
     setCandidates(response.candidates)
