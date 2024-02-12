@@ -36,7 +36,7 @@ const CandidateCard = ({ candidate, loading }) => {
               okText={t('generic.yes')}
               cancelText={t('generic.no')}
             >
-              <DeleteFilled onClick={delCandidate} />
+              <DeleteFilled />
             </Popconfirm>
           </Flex>
         </Flex>
