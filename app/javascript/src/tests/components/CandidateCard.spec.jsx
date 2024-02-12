@@ -3,9 +3,14 @@ import { render, cleanup } from '@testing-library/react'
 import CandidateCard from '@/components/CandidateCard.jsx'
 import createCandidate from '@/models/candidate'
 
+vi.mock('react-router-dom', () => ({
+  Link: ({ children }) => <div>{children}</div>,
+}))
+
 vi.mock('antd', () => ({
   Card: ({ children }) => <div>{children}</div>,
   Avatar: ({ children }) => <div>{children}</div>,
+  Button: ({ children }) => <div>{children}</div>,
   Flex: ({ children }) => <div>{children}</div>,
   Typography: {
     Title: ({ children }) => <div>{children}</div>,
