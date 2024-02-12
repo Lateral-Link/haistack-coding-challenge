@@ -1,11 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Avatar, Flex, Typography, Button } from 'antd'
+import { Card, Avatar, Flex, Typography, Popconfirm } from 'antd'
 import { GiftOutlined, MailOutlined, UserOutlined, EditOutlined, DeleteFilled } from '@ant-design/icons'
+import { deleteCandidate } from '@/repositories/candidates.js'
+import { useTranslation } from 'react-i18next'
 
 const { Title } = Typography
 
 const CandidateCard = ({ candidate, loading }) => {
+  const { t } = useTranslation()
+
+  const delCandidate = async () => {
+    const response = await deleteCandidate(candidate.id)
+    if (response.status === 200) {
+      window.location.reload()
+    }
+  }
   return (
     <Card loading={loading} style={{ height: '100%' }}>
       <Flex vertical gap={16} justify='space-between' style={{ height: '100%' }}>
@@ -19,7 +29,15 @@ const CandidateCard = ({ candidate, loading }) => {
             <Link to={`/candidates/${candidate.id}/edit`}>
               <EditOutlined style={{ fontSize: '16px' }} />
             </Link>
-            <Button icon={<DeleteFilled />} danger />
+            <Popconfirm
+              title={t('candidates.confirmDelete')}
+              description={t('candidates.confirmDeleteDescription')}
+              onConfirm={delCandidate}
+              okText={t('generic.yes')}
+              cancelText={t('generic.no')}
+            >
+              <DeleteFilled onClick={delCandidate} />
+            </Popconfirm>
           </Flex>
         </Flex>
 
