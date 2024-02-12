@@ -27,7 +27,7 @@ describe('request functions', () => {
 
       const result = await request(url, options)
 
-      expect(fetch).toHaveBeenCalledWith(url, options)
+      expect(fetch).toHaveBeenCalledWith(url, { ...options, headers: { 'Content-Type': 'application/json' } })
       expect(result).toEqual({ data: responseData, status: 200 })
     })
 
@@ -38,7 +38,7 @@ describe('request functions', () => {
 
       const result = await request(url, options)
 
-      expect(fetch).toHaveBeenCalledWith(url, options)
+      expect(fetch).toHaveBeenCalledWith(url, { ...options, headers: { 'Content-Type': 'application/json' } })
       expect(result).toEqual({ data: null, status: 404 })
     })
   })
@@ -62,7 +62,7 @@ describe('request functions', () => {
       const url = 'https://example.com'
       const options = {
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key: 'value' }),
+        body: { key: 'value' },
       }
       const responseData = { message: 'POST response data' }
       fetch.mockResolvedValue(mockResponse(201, responseData))
@@ -81,7 +81,7 @@ describe('request functions', () => {
   describe('put', () => {
     it('should make a PUT request with given URL, method, and options', async () => {
       const url = 'https://example.com'
-      const options = { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) }
+      const options = { headers: { 'Content-Type': 'application/json' }, body: { key: 'value' } }
       const responseData = { message: 'PUT response data' }
       fetch.mockResolvedValue(mockResponse(200, responseData))
 
@@ -113,7 +113,7 @@ describe('request functions', () => {
   describe('patch', () => {
     it('should make a PATCH request with given URL, method, and options', async () => {
       const url = 'https://example.com'
-      const options = { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'value' }) }
+      const options = { headers: { 'Content-Type': 'application/json' }, body: { key: 'value' } }
       const responseData = { message: 'PATCH response data' }
       fetch.mockResolvedValue(mockResponse(200, responseData))
 
