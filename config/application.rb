@@ -14,7 +14,7 @@ require 'action_mailer/railtie'
 # require "action_text/engine"
 require 'action_view/railtie'
 # require "action_cable/engine"
-# require "sprockets/railtie"
+# require 'sprockets/railtie'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -35,6 +35,7 @@ module App
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
+    config.autoload_paths += %W(#{config.root}/spec/requests/api/v1/shared_examples)
     config.generators.system_tests = nil
   end
 end
