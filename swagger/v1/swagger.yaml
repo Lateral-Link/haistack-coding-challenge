@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: Candidates API Documentation
+  version: v1
+paths:
+  "/api/v1/candidates":
+    get:
+      summary: List candidates
+      tags:
+        - Candidates
+      parameters:
+        - name: limit
+          in: query
+          description: Limit the number of candidates to return
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: Offset for pagination
+          required: false
+          schema:
+            type: integer
+        - name: date_of_birth
+          in: query
+          description: Candidate's date of birth
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: name
+          in: query
+          description: Candidate's name (starts with)
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Candidate's email (starts with)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      elements:
+                        type: array
+                        items:
+                          $ref: "#/definitions/Candidate"
+                      ids:
+                        type: array
+                        items:
+                          type: integer
+                      count:
+                        type: integer
+                  status:
+                    type: string
+    post:
+      summary: Create candidate
+      tags:
+      - Candidates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/NewCandidate"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Candidate"
+        '422':
+          description: Unprocessable Entity
+  "/api/v1/candidates/{id}":
+    parameters:
+      - name: id
+        in: path
+        description: ID of the candidate
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Show candidate
+      tags:
+      - Candidates
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Candidate"
+        '404':
+          description: Candidate not found
+    put:
+      summary: Update candidate
+      tags:
+        - Candidates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/CandidateUpdate"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Candidate"
+        '404':
+          description: Candidate not found
+        '422':
+          description: Unprocessable Entity
+    delete:
+      summary: Delete candidate
+      tags:
+        - Candidates
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Candidate not found
+definitions:
+  NewCandidate:
+    type: object
+    required:
+      - name
+      - email
+      - date_of_birth
+    properties:
+      name:
+        type: string
+        example: "John Doe"
+      email:
+        type: string
+        format: email
+        example: "john.doe@example.com"
+      date_of_birth:
+        type: string
+        format: date
+        example: "2001-02-02"
+  Candidate:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      date_of_birth:
+        type: string
+        format: date
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+  CandidateUpdate:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+        format: email
+      date_of_birth:
+        type: string
+        format: date
+    required:
+      - name
+      - email
+      - date_of_birth
+servers:
+  - url: http://localhost:3000
